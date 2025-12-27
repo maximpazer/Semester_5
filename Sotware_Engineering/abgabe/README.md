@@ -22,14 +22,15 @@ At least five MUST requirements are fully implemented.
 
 | ID     | Description                                                                 | Priority |
 |--------|------------------------------------------------------------------------------|----------|
+| FR-00  | The system must allow users to create new TODO items with at least a title. | MUSS     |
 | FR-01  | The system must store tasks persistently so data is not lost on restart.     | MUSS     |
 | FR-02  | The system must allow the user to delete existing TODO items.                | MUSS     |
 | FR-03  | The system must allow the user to edit the content of existing TODO items.   | MUSS     |
-| FR-04  | The system must enable marking tasks as completed or open.                  | MUSS     |
+| FR-04  | The system must enable marking tasks as completed or open.                   | MUSS     |
 | FR-05  | The system must display all TODO items in a clear list format.               | MUSS     |
 | FR-06  | The user should be able to create and manage up to five categories.          | SOLL     |
 | FR-07  | The system should allow filtering tasks by status.                           | SOLL     |
-| FR-08  | Tasks can include a due date selected via a calendar picker (< 3 clicks).   | KANN     |
+| FR-08  | Tasks can include a due date selected via a calendar picker (< 3 clicks).    | KANN     |
 
 
 ### 2.2 Non-Functional Requirements

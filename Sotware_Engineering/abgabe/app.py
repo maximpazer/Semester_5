@@ -244,6 +244,105 @@ st.set_page_config(
     layout="centered"
 )
 
+# Responsive CSS
+st.markdown("""
+<style>
+    /* Base responsive container */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        max-width: 1000px;
+    }
+    
+    /* Responsive buttons */
+    .stButton button {
+        min-height: 2.5rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Responsive form inputs */
+    .stTextInput input, .stDateInput input, .stSelectbox select {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    
+    /* Task rows responsive */
+    div[data-testid="column"] {
+        padding: 0.25rem;
+    }
+    
+    /* Tablet adjustments (768px - 1024px) */
+    @media (max-width: 1024px) {
+        .main .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .stButton button {
+            font-size: 0.95rem;
+        }
+    }
+    
+    /* Mobile adjustments (<768px) */
+    @media (max-width: 768px) {
+        .main .block-container {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            padding-top: 1rem;
+        }
+        
+        /* Larger touch targets for mobile */
+        .stButton button {
+            min-height: 3rem;
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        /* Stack columns on mobile */
+        div[data-testid="column"] {
+            width: 100% !important;
+            flex: 100% !important;
+        }
+        
+        /* Larger text for readability */
+        h1 {
+            font-size: 1.75rem !important;
+        }
+        
+        h3 {
+            font-size: 1.25rem !important;
+        }
+        
+        /* Checkbox larger on mobile */
+        label[data-baseweb="checkbox"] {
+            padding: 0.5rem 0;
+        }
+        
+        /* Sidebar full width on mobile when open */
+        section[data-testid="stSidebar"] {
+            min-width: 100%;
+        }
+    }
+    
+    /* Small mobile (<480px) */
+    @media (max-width: 480px) {
+        .main .block-container {
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+        }
+        
+        .stButton button {
+            padding: 0.75rem 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        h1 {
+            font-size: 1.5rem !important;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("TODO")
 
 # Nielsen #1: Visibility of system status - Speicherstatus anzeigen
@@ -313,7 +412,8 @@ with st.sidebar:
 categories_only = st.session_state.data["categories"]
 
 with st.form("add_task_form", clear_on_submit=True):
-    col_title, col_date, col_add = st.columns([3, 1.2, 0.6])
+    # Responsive: Stack on mobile, side-by-side on desktop
+    col_title, col_date, col_add = st.columns([3, 1.5, 0.8])
 
     with col_title:
         new_title = st.text_input(
@@ -324,7 +424,8 @@ with st.form("add_task_form", clear_on_submit=True):
         )
         new_category = st.selectbox(
             "Kategorie",
-            ["Keine"] + categories_only
+            ["Keine"] + categories_only,
+            label_visibility="visible"
         )
 
     with col_date:
@@ -332,11 +433,12 @@ with st.form("add_task_form", clear_on_submit=True):
             "Fälligkeitsdatum",
             value=None,
             min_value=date.today(),
-            label_visibility="collapsed"
+            label_visibility="visible"
         )
 
     with col_add:
-        submit_task = st.form_submit_button("+", type="primary", use_container_width=True)
+        st.write("")  # Spacing for alignment
+        submit_task = st.form_submit_button("➕ Hinzufügen", type="primary", use_container_width=True)
 
     if submit_task:
         if add_task(new_title, new_category, new_due_date):
@@ -401,7 +503,8 @@ else:
 
         row = st.container()
         with row:
-            cols = st.columns([0.4, 6, 1])
+            # Responsive: Adjust column ratios for better mobile display
+            cols = st.columns([0.5, 5, 1.5])
             with cols[0]:
                 cb_key = f"task_cb_{task['id']}"
                 st.session_state[cb_key] = task["completed"]
@@ -428,22 +531,21 @@ else:
                     unsafe_allow_html=True
                 )
             with cols[2]:
-                if st.button("Edit", key=f"edit_{task['id']}"):
-                    st.session_state.edit_task_id = task["id"]
-                    st.rerun()
-                if st.session_state.delete_confirm == task["id"]:
-                    col_yes, col_no = st.columns(2)
-                    if col_yes.button("Ja", key=f"confirm_yes_{task['id']}"):
-                        delete_task(task["id"])
-                        st.session_state.delete_confirm = None
+                btn_col1, btn_col2 = st.columns(2)
+                with btn_col1:
+                    if st.button("✏️", key=f"edit_{task['id']}", help="Bearbeiten", use_container_width=True):
+                        st.session_state.edit_task_id = task["id"]
                         st.rerun()
-                    if col_no.button("Nein", key=f"confirm_no_{task['id']}"):
-                        st.session_state.delete_confirm = None
-                        st.rerun()
-                else:
-                    if st.button("Delete", key=f"delete_{task['id']}"):
-                        st.session_state.delete_confirm = task["id"]
-                        st.rerun()
+                with btn_col2:
+                    if st.session_state.delete_confirm == task["id"]:
+                        if st.button("✓", key=f"confirm_yes_{task['id']}", help="Bestätigen", use_container_width=True):
+                            delete_task(task["id"])
+                            st.session_state.delete_confirm = None
+                            st.rerun()
+                    else:
+                        if st.button("🗑️", key=f"delete_{task['id']}", help="Löschen", use_container_width=True):
+                            st.session_state.delete_confirm = task["id"]
+                            st.rerun()
 
 # ============================================================================
 # ARCHIV
@@ -457,7 +559,8 @@ if st.session_state.show_archived:
     else:
         archived.sort(key=lambda t: -t["id"])
         for task in archived:
-            cols = st.columns([6, 1.2])
+            # Responsive: Better mobile layout for archive
+            cols = st.columns([5, 2])
             with cols[0]:
                 title_html = html.escape(task["title"])
                 meta_parts = []
@@ -473,13 +576,16 @@ if st.session_state.show_archived:
                     unsafe_allow_html=True
                 )
             with cols[1]:
-                if st.button("Restore", key=f"restore_{task['id']}"):
-                    restore_task(task["id"])
-                    st.rerun()
-                if st.button("Delete", key=f"delete_arch_{task['id']}"):
-                    st.session_state.data["archived_tasks"].remove(task)
-                    save_data(st.session_state.data)
-                    st.rerun()
+                arch_col1, arch_col2 = st.columns(2)
+                with arch_col1:
+                    if st.button("↩️", key=f"restore_{task['id']}", help="Wiederherstellen", use_container_width=True):
+                        restore_task(task["id"])
+                        st.rerun()
+                with arch_col2:
+                    if st.button("🗑️", key=f"delete_arch_{task['id']}", help="Löschen", use_container_width=True):
+                        st.session_state.data["archived_tasks"].remove(task)
+                        save_data(st.session_state.data)
+                        st.rerun()
 
 # ============================================================================
 # FOOTER

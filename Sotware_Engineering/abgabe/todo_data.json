@@ -1,42 +1,42 @@
 {
-  "tasks": [
+  "tasks": [],
+  "archived_tasks": [
     {
-      "id": 4,
-      "title": "Laura pflegen",
-      "completed": false,
-      "category": "Privat",
-      "due_date": "2026-01-07"
-    },
-    {
-      "id": 1,
-      "title": "test",
-      "completed": false,
-      "category": "Arbeit",
-      "due_date": "2026-01-06"
-    },
-    {
-      "id": 2,
-      "title": "Auto waschen",
-      "completed": false,
-      "category": "Arbeit",
-      "due_date": "2026-01-06"
+      "id": 3,
+      "title": "Ente kochen",
+      "completed": true,
+      "category": "Ente",
+      "due_date": "2026-01-09"
     },
     {
       "id": 5,
       "title": "Ente auswöhlen",
-      "completed": false,
+      "completed": true,
       "category": "Arbeit",
       "due_date": "2026-01-09"
     },
     {
-      "id": 3,
-      "title": "Ente kochen",
-      "completed": false,
-      "category": "Ente",
-      "due_date": "2026-01-09"
+      "id": 2,
+      "title": "Auto waschen",
+      "completed": true,
+      "category": "Arbeit",
+      "due_date": "2026-01-06"
+    },
+    {
+      "id": 1,
+      "title": "test",
+      "completed": true,
+      "category": "Arbeit",
+      "due_date": "2026-01-06"
+    },
+    {
+      "id": 4,
+      "title": "Laura pflegen",
+      "completed": true,
+      "category": "Privat",
+      "due_date": "2026-01-07"
     }
   ],
-  "archived_tasks": [],
   "categories": [
     {
       "name": "Arbeit",

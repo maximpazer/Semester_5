@@ -48,7 +48,7 @@ category_controller = app_controller.get_category_controller()
 
 # Page Config
 st.set_page_config(
-    page_title="TODO App",
+    page_title="To-do App",
     layout="centered"
 )
 
@@ -63,12 +63,6 @@ LayoutView.render_header(st.session_state.last_save_time)
 # ============================================================================
 
 with st.sidebar:
-    # Statistiken
-    stats = task_controller.get_statistics()
-    SidebarView.render_statistics(stats)
-    
-    st.divider()
-    
     # Filter
     filter_result = SidebarView.render_filters(
         st.session_state.filter_status,
@@ -193,8 +187,3 @@ if st.session_state.show_archived:
         get_color_func=category_controller.get_category_color
     )
 
-# ============================================================================
-# FOOTER
-# ============================================================================
-
-LayoutView.render_footer()

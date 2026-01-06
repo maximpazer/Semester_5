@@ -265,14 +265,6 @@ class SidebarView:
         return {"status": status, "category": category}
     
     @staticmethod
-    def render_statistics(stats: dict) -> None:
-        """Rendert Statistiken"""
-        st.markdown("#### 📊 Übersicht")
-        c1, c2 = st.columns(2)
-        c1.metric("Offen", stats["open"])
-        c2.metric("Archiv", stats["archived"])
-    
-    @staticmethod
     def render_toggles() -> dict:
         """Rendert Toggle-Optionen"""
         st.markdown("#### ⚙️ Optionen")
@@ -287,7 +279,6 @@ class ArchiveView:
     @staticmethod
     def render_archive(tasks: List[Task], on_restore, on_delete, get_color_func: Callable) -> None:
         """Rendert Archiv-Ansicht"""
-        st.markdown("---")
         st.markdown("#### ✅ Erledigte Aufgaben")
         if not tasks:
             st.caption("Keine erledigten Aufgaben.")
@@ -343,7 +334,7 @@ class LayoutView:
     def render_header(last_save_time: Optional[datetime]) -> None:
         """Rendert Header"""
         cols = st.columns([4, 1])
-        with cols[0]: st.markdown("# 📋 TODO")
+        with cols[0]: st.markdown("# To-do App")
         with cols[1]:
             if last_save_time and (datetime.now() - last_save_time).seconds < 4:
                 st.success("✓", icon="💾")
@@ -352,9 +343,3 @@ class LayoutView:
     def render_help() -> None:
         """Rendert Hilfe"""
         st.info("Eintragen → ➕. Erledigt? → Abhaken. ✏️ bearbeiten, 🗑 löschen.", icon="💡")
-    
-    @staticmethod
-    def render_footer() -> None:
-        """Rendert Footer"""
-        st.caption("───")
-        st.caption("Änderungen werden automatisch gespeichert.")

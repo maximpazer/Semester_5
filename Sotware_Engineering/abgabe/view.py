@@ -222,7 +222,7 @@ class CategoryView:
             with cols[1]:
                 color = st.color_picker("Farbe", "#4e73df", label_visibility="collapsed")
             with cols[2]:
-                submit_cat = st.form_submit_button("➕", use_container_width=True)
+                submit_cat = st.form_submit_button("➕", use_container_width=True, type="primary")
             
             if submit_cat:
                 if new_category.strip():
@@ -334,7 +334,7 @@ class LayoutView:
     def render_header(last_save_time: Optional[datetime]) -> None:
         """Rendert Header"""
         cols = st.columns([4, 1])
-        with cols[0]: st.markdown("# To-do App")
+        with cols[0]: st.markdown("# TODO App")
         with cols[1]:
             if last_save_time and (datetime.now() - last_save_time).seconds < 4:
                 st.success("✓", icon="💾")

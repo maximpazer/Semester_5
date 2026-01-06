@@ -1,0 +1,65 @@
+# Unit Tests für TODO App
+
+Erstellen Sie eine vollständige Suite von Unit Testsfür die TODO-App. Verwenden Sie dafür das Framework pytest. Die Tests sollen die Logik der Anwendung vollständig abdecken, ohne externe Systeme einzubeziehen.
+▪
+Jeder Test soll klar das AAA-Muster verwenden.
+▪
+Jeder Test muss unabhängig voneinander lauffähig sein.
+▪
+Ihre Tests sollen mindestens 80 % des Codes abdecken (Sie können coverage.py nutzen, um das zu messen).
+Erstellen Sie mindestens folgende Unit Tests:
+▪
+Hinzufügen eines neuen TODO-Items
+▪
+Entfernen eines Items
+▪
+Markieren als erledigt / nicht erledigt
+▪
+Bearbeiten eines Items
+▪
+Optional: Fehlerfälle oder Randbedingungen (z. B. leere Titel, doppelte Titel)
+Abgabe: test_unit.py
+
+# Integrationstest für TODO App
+Erstellen Sie 3 Integrationstests, z.B.
+▪
+Mehrere Aufgaben erstellen und sicherstellen, dass die Repository-Schicht konsistent bleibt
+▪
+Aktualisieren eines vorhandenen Items (z. B. Status ändern) -> → Status korrekt im Repository aktualisiert
+▪
+Leere Aufgabe → Repository wirft kontrollierten Fehler
+▪
+Löschen eines Items und Überprüfung, ob es aus dem Repository verschwindet
+Abgabe: test_intergration.py
+
+
+# Systemtests für TODO App
+Ziel:Prüfen, dass das komplette System technisch korrekt arbeitet, inkl. Service, Repository und evtl. UI-Elemente (kontrolliert, ohne echten Browser).
+Framework: pytest
+Szenarien:
+▪
+Aufgabe anlegen → geprüft wird Speicherung und Abruf
+▪
+Aufgabe als erledigt markieren → Status korrekt im System
+▪
+Aufgabe löschen → System konsistent
+▪
+Fehlerfälle → kontrollierte Fehlermeldung
+Abgabe: system_test.py
+
+# End-to-End Tests für TODO App
+Ziel:Prüfen, dass ein Benutzer alle Abläufe erfolgreich durchführen kann, inklusive Frontend (Streamlit), Backend und Persistenz.
+▪
+Framework: pytest+ Playwright
+▪
+Mögliche Szenarien:
+▪
+Aufgabe über UI anlegen → sichtbar und gespeichert
+▪
+Aufgabe als erledigt markieren → Status sichtbar und gespeichert
+▪
+Aufgabe löschen → aus UI und Persistenz entfernt
+▪
+Fehlerfall: leere Aufgabe → Fehlermeldung sichtbar
+▪
+Optional: App neu starten → Aufgaben korrekt wiederhergestellt

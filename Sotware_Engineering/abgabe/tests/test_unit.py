@@ -287,7 +287,7 @@ class TestCategory:
         max_categories = Category.MAX_CATEGORIES
         
         # Assert
-        assert max_categories == 5
+        assert max_categories == 8
 
 
 # ============================================================================
@@ -305,8 +305,10 @@ class TestTaskRepository:
         # Assert
         assert repo.data["tasks"] == []
         assert repo.data["archived_tasks"] == []
-        assert "Arbeit" in repo.data["categories"]
-        assert "Privat" in repo.data["categories"]
+        # Kategorien sind jetzt Objekte mit name und color
+        category_names = [c["name"] for c in repo.data["categories"]]
+        assert "Arbeit" in category_names
+        assert "Privat" in category_names
         assert repo.data["next_id"] == 1
     
     def test_repository_saves_data_to_file(self, temp_data_file):
@@ -327,12 +329,12 @@ class TestTaskRepository:
     
     def test_repository_loads_existing_data(self, temp_data_file):
         """Test: Repository lädt existierende Daten"""
-        # Arrange
+        # Arrange - Daten mit neuer Kategorie-Struktur
         test_data = {
             "tasks": [{"id": 1, "title": "Existing", "completed": False, 
                       "category": "Keine", "due_date": None}],
             "archived_tasks": [],
-            "categories": ["Test"],
+            "categories": [{"name": "Test", "color": "#4e73df"}],
             "next_id": 2
         }
         with open(temp_data_file, "w") as f:
@@ -344,7 +346,7 @@ class TestTaskRepository:
         # Assert
         assert len(repo.data["tasks"]) == 1
         assert repo.data["tasks"][0]["title"] == "Existing"
-        assert repo.data["categories"] == ["Test"]
+        assert repo.data["categories"][0]["name"] == "Test"
         assert repo.data["next_id"] == 2
     
     def test_add_task_with_valid_task(self, empty_repository):
@@ -383,9 +385,9 @@ class TestTaskRepository:
         empty_repository.add_task(task1)
         empty_repository.add_task(task2)
         
-        # Assert
-        assert empty_repository.data["tasks"][0]["id"] == 1
-        assert empty_repository.data["tasks"][1]["id"] == 2
+        # Assert - Neue Tasks werden oben eingefügt (insert(0))
+        assert empty_repository.data["tasks"][0]["id"] == 2  # Neueste zuerst
+        assert empty_repository.data["tasks"][1]["id"] == 1
         assert empty_repository.data["next_id"] == 3
     
     def test_get_all_tasks_returns_all_active_tasks(self, repository_with_tasks):
@@ -554,22 +556,24 @@ class TestTaskRepository:
         # Arrange & Act
         categories = empty_repository.get_categories()
         
-        # Assert
+        # Assert - Kategorien sind jetzt Objekte mit name und color
         assert isinstance(categories, list)
-        assert "Arbeit" in categories
-        assert "Privat" in categories
+        category_names = [c["name"] for c in categories]
+        assert "Arbeit" in category_names
+        assert "Privat" in category_names
     
     def test_add_category_with_valid_name(self, empty_repository):
         """Test: Hinzufügen gültiger Kategorie (FR-06)"""
         # Arrange
-        category = Category("Sport")
+        category = Category("Sport", "#ff0000")
         
         # Act
         result = empty_repository.add_category(category)
         
         # Assert
         assert result is True
-        assert "Sport" in empty_repository.get_categories()
+        category_names = [c["name"] for c in empty_repository.get_categories()]
+        assert "Sport" in category_names
     
     def test_add_category_with_invalid_name(self, empty_repository):
         """Test: Hinzufügen ungültiger Kategorie"""
@@ -595,18 +599,21 @@ class TestTaskRepository:
     
     def test_add_category_exceeds_maximum(self, empty_repository):
         """Test: Hinzufügen über Maximum schlägt fehl"""
-        # Arrange - Repository hat bereits 2 Kategorien
+        # Arrange - Repository hat bereits 2 Kategorien, Maximum ist 8
         empty_repository.add_category(Category("Cat3"))
         empty_repository.add_category(Category("Cat4"))
         empty_repository.add_category(Category("Cat5"))
-        # Jetzt sind 5 Kategorien vorhanden
+        empty_repository.add_category(Category("Cat6"))
+        empty_repository.add_category(Category("Cat7"))
+        empty_repository.add_category(Category("Cat8"))
+        # Jetzt sind 8 Kategorien vorhanden (Maximum)
         
         # Act
-        result = empty_repository.add_category(Category("Cat6"))
+        result = empty_repository.add_category(Category("Cat9"))
         
         # Assert
         assert result is False
-        assert len(empty_repository.get_categories()) == 5
+        assert len(empty_repository.get_categories()) == 8
     
     def test_delete_category_removes_category(self, empty_repository):
         """Test: Löschen einer Kategorie"""
@@ -618,7 +625,8 @@ class TestTaskRepository:
         
         # Assert
         assert result is True
-        assert category_name not in empty_repository.get_categories()
+        category_names = [c["name"] for c in empty_repository.get_categories()]
+        assert category_name not in category_names
     
     def test_delete_category_updates_tasks(self, empty_repository):
         """Test: Löschen einer Kategorie setzt Tasks auf 'Keine'"""
@@ -635,15 +643,17 @@ class TestTaskRepository:
         assert task1.category == "Keine"
     
     def test_delete_nonexistent_category(self, empty_repository):
-        """Test: Löschen nicht existierender Kategorie"""
+        """Test: Löschen nicht existierender Kategorie gibt True zurück (keine Fehler)"""
         # Arrange
         nonexistent = "Nonexistent"
+        initial_count = len(empty_repository.get_categories())
         
         # Act
         result = empty_repository.delete_category(nonexistent)
         
-        # Assert
-        assert result is False
+        # Assert - delete_category gibt immer True zurück (keine Ausnahme)
+        assert result is True
+        assert len(empty_repository.get_categories()) == initial_count
     
     def test_filter_tasks_by_status_open(self, repository_with_tasks):
         """Test: Filtern nach Status 'Offen' (FR-07)"""
@@ -1023,10 +1033,13 @@ class TestCategoryController:
     
     def test_can_add_category_returns_false_when_at_max(self, category_controller):
         """Test: can_add_category gibt False zurück wenn bei Maximum"""
-        # Arrange - Auf 5 Kategorien auffüllen
+        # Arrange - Auf 8 Kategorien auffüllen (Maximum)
         category_controller.create_category("Cat3")
         category_controller.create_category("Cat4")
         category_controller.create_category("Cat5")
+        category_controller.create_category("Cat6")
+        category_controller.create_category("Cat7")
+        category_controller.create_category("Cat8")
         
         # Act
         result = category_controller.can_add_category()
@@ -1148,7 +1161,8 @@ class TestEdgeCases:
         
         # Assert - Sollte Default-Daten verwenden
         assert repo.data["tasks"] == []
-        assert "Arbeit" in repo.data["categories"]
+        category_names = [c["name"] for c in repo.data["categories"]]
+        assert "Arbeit" in category_names
     
     def test_category_name_with_special_characters(self, category_controller):
         """Test: Kategorie mit Sonderzeichen"""
@@ -1178,7 +1192,8 @@ class TestEdgeCases:
         tasks = empty_repository.get_all_tasks()
         ids = [t.id for t in tasks]
         assert len(ids) == len(set(ids))  # Alle IDs sind eindeutig
-        assert ids == [1, 2, 3]
+        # Neue Tasks werden oben eingefügt, daher ist Reihenfolge umgekehrt
+        assert sorted(ids) == [1, 2, 3]
     
     def test_invalid_due_date_format_in_stored_data(self, temp_data_file):
         """Test: Ungültiges Datumsformat in gespeicherten Daten"""

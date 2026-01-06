@@ -89,20 +89,22 @@ class TestTaskCreationIntegration:
         all_tasks = task_controller.get_all_tasks()
         assert len(all_tasks) == 5, "Repository sollte 5 Tasks enthalten"
         
-        # 2. IDs sind eindeutig und aufsteigend
+        # 2. IDs sind eindeutig (neue Tasks werden oben eingefügt)
         task_ids = [task.id for task in all_tasks]
-        assert task_ids == [1, 2, 3, 4, 5], "IDs sollten sequentiell sein"
+        assert sorted(task_ids) == [1, 2, 3, 4, 5], "IDs sollten sequentiell sein"
         assert len(set(task_ids)) == 5, "Alle IDs sollten eindeutig sein"
         
-        # 3. Titel korrekt gespeichert
+        # 3. Titel korrekt gespeichert (neueste zuerst)
         task_titles = [task.title for task in all_tasks]
-        expected_titles = [t["title"] for t in tasks_to_create]
-        assert task_titles == expected_titles, "Titel sollten korrekt gespeichert sein"
+        expected_titles = [t["title"] for t in reversed(tasks_to_create)]
+        assert task_titles == expected_titles, "Titel sollten korrekt gespeichert sein (neueste zuerst)"
         
         # 4. Kategorien korrekt zugeordnet
-        for i, task in enumerate(all_tasks):
-            assert task.category == tasks_to_create[i]["category"], \
-                f"Kategorie von Task {i+1} sollte '{tasks_to_create[i]['category']}' sein"
+        for task in all_tasks:
+            matching = next((t for t in tasks_to_create if t["title"] == task.title), None)
+            assert matching is not None, f"Task '{task.title}' nicht in erwarteten Tasks"
+            assert task.category == matching["category"], \
+                f"Kategorie von '{task.title}' sollte '{matching['category']}' sein"
         
         # 5. Filter funktionieren korrekt
         arbeit_tasks = task_controller.get_filtered_tasks(category="Arbeit")

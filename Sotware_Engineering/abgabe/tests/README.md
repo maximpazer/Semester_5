@@ -39,7 +39,7 @@ pytest tests/ --cov=model --cov=controller --cov-report=html
 ## Ergebnisse
 
 - ✅ **93/93 Tests bestanden**
-- ✅ **98% Code Coverage**
+- ✅ **94% Code Coverage**
 - ✅ **< 0.4s Laufzeit**
 
 Siehe [TEST_DOKUMENTATION.md](../TEST_DOKUMENTATION.md) für Details.

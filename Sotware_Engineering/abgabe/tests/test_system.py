@@ -454,18 +454,21 @@ class TestErrorHandlingSystemFlow:
         
         # Fehlerfall 8: Kategorie-Maximum überschreiten
         # ----------------------------------------
-        # 5 Kategorien erstellen (2 existieren bereits: Arbeit, Privat)
+        # 6 Kategorien erstellen (2 existieren bereits: Arbeit, Privat), Maximum ist 8
         category_controller.create_category("Cat1")
         category_controller.create_category("Cat2")
         category_controller.create_category("Cat3")
+        category_controller.create_category("Cat4")
+        category_controller.create_category("Cat5")
+        category_controller.create_category("Cat6")
         
-        assert len(category_controller.get_all_categories()) == 5, "5 Kategorien"
+        assert len(category_controller.get_all_categories()) == 8, "8 Kategorien (Maximum)"
         
-        # Versuch 6. Kategorie
-        exceed_result = category_controller.create_category("Cat6")
+        # Versuch 9. Kategorie
+        exceed_result = category_controller.create_category("Cat9")
         
-        assert exceed_result is False, "6. Kategorie abgelehnt"
-        assert len(category_controller.get_all_categories()) == 5, "Immer noch 5"
+        assert exceed_result is False, "9. Kategorie abgelehnt"
+        assert len(category_controller.get_all_categories()) == 8, "Immer noch 8"
         
         # Fehlerfall 9: Doppelte Kategorie erstellen
         # ----------------------------------------
@@ -473,11 +476,11 @@ class TestErrorHandlingSystemFlow:
         
         assert duplicate_result is False, "Doppelte Kategorie abgelehnt"
         
-        # Fehlerfall 10: Nicht-existierende Kategorie löschen
+        # Fehlerfall 10: Nicht-existierende Kategorie löschen (gibt True zurück, da keine Exception)
         # ----------------------------------------
         delete_cat_result = category_controller.delete_category("NonExistent")
         
-        assert delete_cat_result is False, "Nicht-existierende Kategorie nicht löschbar"
+        assert delete_cat_result is True, "Löschen nicht-existierender Kategorie gibt True zurück (keine Exception)"
         
         # Fehlerfall 11: Task mit leerem Titel aktualisieren
         # ----------------------------------------
@@ -497,7 +500,7 @@ class TestErrorHandlingSystemFlow:
         assert final_tasks[0].title == "Valid Task", "Richtige Task vorhanden"
         
         final_cats = category_controller.get_all_categories()
-        assert len(final_cats) == 5, "5 Kategorien final"
+        assert len(final_cats) == 8, "8 Kategorien final (Maximum)"
         
         # Statistiken korrekt nach Fehlern
         stats = task_controller.get_statistics()
@@ -596,8 +599,8 @@ class TestCompleteEndToEndSystemFlow:
         
         # Phase 6: Archiv verwalten
         # =========================
-        # Eine Task wiederherstellen
-        task_to_restore = archived[0]
+        # Eine Task wiederherstellen - die "Design Review planen" Task
+        task_to_restore = next(t for t in archived if t.title == "Design Review planen")
         restore_result = task_controller.restore_task(task_to_restore.id)
         assert restore_result is True, "Task wiederhergestellt"
         

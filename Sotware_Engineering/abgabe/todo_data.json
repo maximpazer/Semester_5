@@ -1,12 +1,41 @@
 {
-  "tasks": [],
-  "archived_tasks": [
+  "tasks": [
+    {
+      "id": 9,
+      "title": "Software Engineering Figma",
+      "completed": false,
+      "category": "Privat",
+      "due_date": "2026-01-09"
+    },
+    {
+      "id": 7,
+      "title": "auto",
+      "completed": false,
+      "category": "Keine",
+      "due_date": null
+    },
+    {
+      "id": 6,
+      "title": "Hund essen",
+      "completed": false,
+      "category": "Keine",
+      "due_date": null
+    },
     {
       "id": 3,
       "title": "Ente kochen",
-      "completed": true,
+      "completed": false,
       "category": "Ente",
       "due_date": "2026-01-09"
+    }
+  ],
+  "archived_tasks": [
+    {
+      "id": 8,
+      "title": "ficken",
+      "completed": true,
+      "category": "Keine",
+      "due_date": null
     },
     {
       "id": 5,
@@ -55,5 +84,5 @@
       "color": "#aac13a"
     }
   ],
-  "next_id": 6
+  "next_id": 10
 }

@@ -6,14 +6,14 @@ Diese Anwendung ist eine plattformübergreifende TODO-Lösung, die nach den Best
 Das Ziel ist ein wartbares System, das funktionale und nicht-funktionale Anforderungen gleichermaßen erfüllt und umfassend dokumentiert ist.
 
 ## 2. Anforderungsanalyse – Block 2
-Alle Anforderungen sind entlang des **SMART-Prinzips** (Specific, Measurable, Accepted, Realistic, Timely) formuliert und eindeutig gekennzeichnet, um eine lückenlose Nachverfolgbarkeit im Projektverlauf zu gewährleisten.
+Alle Anforderungen sind entlang des **SMART-Prinzips** (Specific, Measurable, Accepted, Realistic, Timely)
 
 ### 2.1 Funktionale Anforderungen
-Funktionale Anforderungen beschreiben **was** das System leisten muss. Mindestens fünf MUSS-Anforderungen wurden vollständig implementiert.
+Funktionale Anforderungen beschreiben **was** das System leisten muss. 00-04 entsprechen den Anforderungen aus den Folien fünf MUSS-Anforderungen wurden vollständig implementiert.
 
 | ID     | Beschreibung                                                                 | Priorität |
 |--------|------------------------------------------------------------------------------|-----------|
-| FR-00  | Das System speichert Aufgaben persistent (z. B. lokal als JSON).             | MUSS      |
+| FR-00  | Das System speichert Aufgaben persistent (z. B. lokal/DB).             | MUSS      |
 | FR-01  | Eine neue Aufgabe mit Titel lässt sich innerhalb von maximal 5 Sekunden anlegen. | MUSS      |
 | FR-02  | Der Nutzer kann Aufgaben dauerhaft löschen.                                 | MUSS      |
 | FR-03  | Aufgaben lassen sich nachträglich bearbeiten (Titel, Beschreibung, Kategorie). | MUSS      |
@@ -25,18 +25,8 @@ Funktionale Anforderungen beschreiben **was** das System leisten muss. Mindesten
 | FR-09  | Erledigte Aufgaben lassen sich gesammelt entfernen.                          | KANN      |
 | FR-10  | Aufgaben lassen sich als „wichtig“ oder „priorisiert“ markieren.            | KANN      |
 | FR-11  | Es können nur Aufgaben mit bevorstehendem Fälligkeitsdatum angezeigt werden (heute/diese Woche). | KANN      |
+| FR-12  | Es können Kategorien farbig markiert werden  | KANN      |
 
-### 2.2 Nicht-funktionale Anforderungen
-Nicht-funktionale Anforderungen beschreiben **wie gut** das System seine Aufgaben erfüllt und orientieren sich an den ISO/IEC 25010 Qualitätsmerkmalen.
-
-| ID      | Kategorie     | Beschreibung                                                                 | Priorität |
-|---------|---------------|-------------------------------------------------------------------------------|-----------|
-| NFR-01  | Performance   | Das Anlegen einer neuen Aufgabe dauert unter 5 Sekunden.                      | MUSS      |
-| NFR-02  | Usability     | Die Benutzeroberfläche folgt den zehn Usability-Heuristiken von Nielsen.     | MUSS      |
-| NFR-03  | Performance   | Reaktionen auf Nutzereingaben erfolgen innerhalb von 200–300 ms.             | MUSS      |
-| NFR-04  | Sicherheit    | Passwörter (falls verwendet) werden mit einem sicheren Hash abgelegt.        | SOLL      |
-| NFR-05  | Kompatibilität| Die Anwendung unterstützt plattformübergreifende Ausführung.                 | MUSS      |
-| NFR-06  | Zuverlässigkeit| Die Anwendung garantiert 99,5 % monatliche Verfügbarkeit.                   | SOLL      |
 
 ## 3. Streamlit-Benutzeroberfläche – Block 3
 → Link zu Figma (noch in Arbeit)
@@ -50,10 +40,14 @@ https://www.figma.com/community/file/1166786573904778097
 1. Öffnen Sie das Streamlit-Designsystem und machen Sie sich mit den Komponenten vertraut.
 2. Erstellen Sie eine neue Seite und gestalten Sie ein einfaches Todo-App-Layout mithilfe der Streamlit-Assets (Assets-Bibliothek nach „st.“ filtern).
 
-## 4. Architektur & Qualitätsrestriktionen
+## 4. Architektur
 ### 4.1 MVC-Architektur
-Die TODO-App setzt strikt auf das Model-View-Controller-Muster, das Datenlogik, Darstellung und Steuerung trennt. Diese Trennung erhöht Wartbarkeit und Testbarkeit, erlaubt UI-Anpassungen ohne Geschäftslogikänderungen und macht die Anwendung für zukünftige Features (z. B. Cloud-Synchronisation) flexibel.
+### Wieso MVC?
+Die Model-View-Controller-(MVC)-Architektur eignet sich besonders gut für eine TODO-Anwendung, da sie eine strikte Trennung der Verantwortlichkeiten durch die Aufteilung in drei klar definierte Schichten erzwingt: das Model (Daten und Geschäftslogik), die View (Benutzerschnittstelle) und den Controller (Steuerung und Koordination des Anwendungsablaufs). Diese Struktur überführt funktionale Anforderungen in eine klare Mikroarchitektur, reduziert die kognitive Komplexität und erleichtert es, das System zu verstehen, zu warten und weiterzuentwickeln. Durch die explizite Zuordnung von Zuständigkeiten – etwa die Verwaltung persistenter Aufgabendaten im Model oder die Verarbeitung von Benutzeraktionen wie dem Hinzufügen oder Löschen von Einträgen im Controller – wird der Code konsistenter und besser nachvollziehbar.
 
+Darüber hinaus unterstützt MVC die Erweiterbarkeit des Systems, da wiederkehrende technische Probleme nach einheitlichen Mustern gelöst werden. Dies erleichtert die Integration neuer Funktionalitäten und fördert die langfristige Wartbarkeit. Die Fachliteratur hebt zudem hervor, dass der Einsatz etablierter Architekturpatterns wie MVC zur Softwarequalität beiträgt, indem er eine frühe Ausrichtung an Qualitätsmerkmalen und Stakeholder-Anforderungen begünstigt. Schließlich ermöglicht die Entkopplung von View und Model, die Benutzeroberfläche zu verändern, ohne die zugrunde liegende Datenhaltung oder Geschäftslogik anpassen zu müssen – ein zentrales Merkmal professioneller Softwareentwicklung.
+
+### Implementierung von MVC
 #### Model (model.py)
 **Verantwortlichkeiten:**
 - Domänenobjekte wie `Task` und `Category`
@@ -118,10 +112,10 @@ Jede Nielsen-Heuristik ist explizit den UI-Komponenten zugeordnet, um die Gebrau
 | Sichtbarkeit des Systemstatus                | `LayoutView` zeigt Fortschrittsanzeigen und Statusmeldungen beim Speichern bzw. Löschen an.          |
 | Übereinstimmung zwischen System und realer Welt | Labels, Kategorien und Terminangaben orientieren sich an vertrauter Todo-Terminologie.      |
 | Benutzerkontrolle und Freiheit               | `TaskView` erlaubt Abbrechen und erneutes Laden der Formulare, `SidebarView` setzt Filter zurück.    |
-| Konsistenz und Standards                      | Einheitliche Buttons, Icons und Streamlit-Stile in allen Views sorgen für durchgängiges Verhalten.  |
+| Konsistenz und Standards                      | Einheitliche Buttons (beispielsweise das "hinzufügen"), Icons und Streamlit-Stile in allen Views sorgen für durchgängiges Verhalten.  |
 | Fehlervermeidung                             | Validierung verhindert leere Titel, vor dem Löschen erscheint eine Bestätigung (FR-08).              |
 | Erkennung statt Erinnerung                   | Editierbare Listen und Filter erleichtern das Wiederfinden von Tasks ohne Gedächtnisleistung.        |
-| Flexibilität und Effizienz                   | Tastatur-Fokussierung, Shortcuts für Filter und Schnellaktionen erhöhen die Arbeitseffizienz.        |
+| Flexibilität und Effizienz                   | Sidebar mit dem Filter erhöhen die Arbeitseffizienz.        |
 | Ästhetik und minimalistisches Design          | `LayoutView` und CSS sorgen für eine reduzierte, aufgeräumte Darstellung ohne unnötige Elemente.     |
 | Hilfe bei Fehlern                            | Hilfetexte, Fehlermeldungen und Validierungsfeedback geben klare Hinweise auf korrekte Eingaben.     |
 | Hilfe und Dokumentation                      | README, View-Tooltips und das Design-System-Referenzmaterial unterstützen bei der Nutzung.          |

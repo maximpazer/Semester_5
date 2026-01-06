@@ -82,9 +82,9 @@ with st.sidebar:
     
     # Kategorie-Management
     CategoryView.render_category_management(
-        categories=category_controller.get_all_categories(),
+        categories_with_colors=category_controller.get_categories_with_colors(),
         can_add=category_controller.can_add_category(),
-        on_add=lambda name: category_controller.create_category(name) and st.rerun(),
+        on_add=lambda name, color: category_controller.create_category(name, color) and st.rerun(),
         on_delete=lambda name: category_controller.delete_category(name) and st.rerun()
     )
     
@@ -169,7 +169,8 @@ else:
             task_controller.delete_task(task_id),
             setattr(st.session_state, 'last_save_time', datetime.now()),
             st.rerun()
-        )
+        ),
+        get_color_func=category_controller.get_category_color
     )
 
 # ============================================================================
@@ -188,7 +189,8 @@ if st.session_state.show_archived:
             task_controller.delete_task(task_id),
             setattr(st.session_state, 'last_save_time', datetime.now()),
             st.rerun()
-        )
+        ),
+        get_color_func=category_controller.get_category_color
     )
 
 # ============================================================================

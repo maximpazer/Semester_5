@@ -7,7 +7,7 @@ Verantwortlichkeiten:
 """
 
 from datetime import date
-from typing import List, Optional
+from typing import List, Optional, Dict
 from model import Task, Category, TaskRepository
 
 
@@ -110,12 +110,20 @@ class CategoryController:
         self.repository = repository
     
     def get_all_categories(self) -> List[str]:
-        """Gibt alle Kategorien zurück"""
+        """Gibt nur die Namen der Kategorien zurück (für Selectboxes)"""
+        return [c["name"] for c in self.repository.get_categories()]
+    
+    def get_categories_with_colors(self) -> List[Dict]:
+        """Gibt Kategorien mit ihren Farben zurück"""
         return self.repository.get_categories()
     
-    def create_category(self, name: str) -> bool:
-        """Erstellt neue Kategorie (FR-06)"""
-        category = Category(name.strip())
+    def get_category_color(self, name: str) -> str:
+        """Gibt die Farbe für einen Kategorienamen zurück"""
+        return self.repository.get_category_color(name)
+    
+    def create_category(self, name: str, color: str = "#e8e8e8") -> bool:
+        """Erstellt neue Kategorie mit Farbe (FR-06)"""
+        category = Category(name.strip(), color)
         return self.repository.add_category(category)
     
     def delete_category(self, name: str) -> bool:

@@ -1,136 +1,128 @@
-# TODO Application – Software Engineering Project
+# TODO-Anwendung – Software Engineering Projekt
 
-## 1. Project Overview
-This project implements a cross-platform TODO application developed according to
-Software Engineering best practices, including Requirements Engineering (SMART),
-MVC architecture, and established design patterns.
+## 1. Projektübersicht
+Diese Anwendung ist eine plattformübergreifende TODO-Lösung, die nach den Best Practices des Software Engineerings entwickelt wurde. Sie integriert Requirements Engineering nach dem SMART-Prinzip, eine klare MVC-Architektur und bewährte Design Patterns.
 
-The goal is to design, implement, and document a maintainable system that fulfills
-both functional and non-functional requirements.
+Das Ziel ist ein wartbares System, das funktionale und nicht-funktionale Anforderungen gleichermaßen erfüllt und umfassend dokumentiert ist.
 
+## 2. Anforderungsanalyse – Block 2
+Alle Anforderungen sind entlang des **SMART-Prinzips** (Specific, Measurable, Accepted, Realistic, Timely) formuliert und eindeutig gekennzeichnet, um eine lückenlose Nachverfolgbarkeit im Projektverlauf zu gewährleisten.
 
-## 2. Requirements Engineering --> Block 2
+### 2.1 Funktionale Anforderungen
+Funktionale Anforderungen beschreiben **was** das System leisten muss. Mindestens fünf MUSS-Anforderungen wurden vollständig implementiert.
 
-All requirements are formulated according to the **SMART principle**
-(Specific, Measurable, Accepted, Realistic, Timely) and are uniquely identifiable
-to ensure full traceability throughout the project lifecycle.
+| ID     | Beschreibung                                                                 | Priorität |
+|--------|------------------------------------------------------------------------------|-----------|
+| FR-00  | Das System speichert Aufgaben persistent (z. B. lokal als JSON).             | MUSS      |
+| FR-01  | Eine neue Aufgabe mit Titel lässt sich innerhalb von maximal 5 Sekunden anlegen. | MUSS      |
+| FR-02  | Der Nutzer kann Aufgaben dauerhaft löschen.                                 | MUSS      |
+| FR-03  | Aufgaben lassen sich nachträglich bearbeiten (Titel, Beschreibung, Kategorie). | MUSS      |
+| FR-04  | Aufgaben können als erledigt markiert werden.                                | MUSS      |
+| FR-05  | Filterfunktionen erlauben die Anzeige nach Kategorien.                       | SOLL      |
+| FR-06  | Aufgaben lassen sich nach dem Fälligkeitsdatum sortieren (auf-/absteigend). | SOLL      |
+| FR-07  | Eine Suchfunktion findet Aufgaben anhand des Titels.                         | SOLL      |
+| FR-08  | Vor dem endgültigen Löschen erscheint eine Bestätigungsabfrage.              | KANN      |
+| FR-09  | Erledigte Aufgaben lassen sich gesammelt entfernen.                          | KANN      |
+| FR-10  | Aufgaben lassen sich als „wichtig“ oder „priorisiert“ markieren.            | KANN      |
+| FR-11  | Es können nur Aufgaben mit bevorstehendem Fälligkeitsdatum angezeigt werden (heute/diese Woche). | KANN      |
 
-### 2.1 Functional Requirements 
+### 2.2 Nicht-funktionale Anforderungen
+Nicht-funktionale Anforderungen beschreiben **wie gut** das System seine Aufgaben erfüllt und orientieren sich an den ISO/IEC 25010 Qualitätsmerkmalen.
 
-Functional requirements describe **what** the system must do.
-At least five MUST requirements are fully implemented.
+| ID      | Kategorie     | Beschreibung                                                                 | Priorität |
+|---------|---------------|-------------------------------------------------------------------------------|-----------|
+| NFR-01  | Performance   | Das Anlegen einer neuen Aufgabe dauert unter 5 Sekunden.                      | MUSS      |
+| NFR-02  | Usability     | Die Benutzeroberfläche folgt den zehn Usability-Heuristiken von Nielsen.     | MUSS      |
+| NFR-03  | Performance   | Reaktionen auf Nutzereingaben erfolgen innerhalb von 200–300 ms.             | MUSS      |
+| NFR-04  | Sicherheit    | Passwörter (falls verwendet) werden mit einem sicheren Hash abgelegt.        | SOLL      |
+| NFR-05  | Kompatibilität| Die Anwendung unterstützt plattformübergreifende Ausführung.                 | MUSS      |
+| NFR-06  | Zuverlässigkeit| Die Anwendung garantiert 99,5 % monatliche Verfügbarkeit.                   | SOLL      |
 
-| ID     | Description                                                                 | Priority |
-|--------|------------------------------------------------------------------------------|----------|
-| FR-00  | The system must allow users to create new TODO items with at least a title. | MUSS     |
-| FR-01  | The system must store tasks persistently so data is not lost on restart.     | MUSS     |
-| FR-02  | The system must allow the user to delete existing TODO items.                | MUSS     |
-| FR-03  | The system must allow the user to edit the content of existing TODO items.   | MUSS     |
-| FR-04  | The system must enable marking tasks as completed or open.                   | MUSS     |
-| FR-05  | The system must display all TODO items in a clear list format.               | MUSS     |
-| FR-06  | The user should be able to create and manage up to five categories.          | SOLL     |
-| FR-07  | The system should allow filtering tasks by status.                           | SOLL     |
-| FR-08  | Tasks can include a due date selected via a calendar picker (< 3 clicks).    | KANN     |
+## 3. Streamlit-Benutzeroberfläche – Block 3
+→ Link zu Figma (noch in Arbeit)
 
-
-### 2.2 Non-Functional Requirements
-
-Non-functional requirements describe **how well** the system performs,
-based on ISO/IEC 25010 quality characteristics.
-
-| ID      | Category       | Description                                                             | Priority |
-|---------|---------------|-------------------------------------------------------------------------|----------|
-| NFR-01  | Performance   | A new task can be created in under 5 seconds.                          | MUSS     |
-| NFR-02  | Usability     | The UI adheres to Nielsen’s 10 Usability Heuristics.                    | MUSS     |
-| NFR-03  | Performance   | The system reacts to user input within 200–300 ms.                     | MUSS     |
-| NFR-04  | Security      | Passwords (if used) are stored using a secure hashing algorithm.       | SOLL     |
-| NFR-05  | Compatibility | The application supports cross-platform execution.                    | MUSS     |
-| NFR-06  | Reliability   | The application ensures 99.5% monthly availability.                   | SOLL     |
-
-
-
-## 3. Streamlit UI --> Block 3
---> hier Link einfügen zu Figma (noch zu erstellen)
 Streamlit Plugin:
 https://www.figma.com/community/plugin/1167469184805790690/figma-to-streamlit
-▪
+
 Streamlit Design System:
 https://www.figma.com/community/file/1166786573904778097
-1.
-Öffnen Sie das Streamlit-Designsystem, machen Sie sich damit vertraut.
-2.
-Öffnen Sie eine neue Seite. Erstellen Sie ein einfaches Todo-App-Design mit Streamlit-Assets (gehen Sie zu „Assets“ und suchen Sie nach Assets, die mit „st.“ beginnen
-## 3. Architecture & Quality Constraints
 
-### 3.1 MVC Architecture
+1. Öffnen Sie das Streamlit-Designsystem und machen Sie sich mit den Komponenten vertraut.
+2. Erstellen Sie eine neue Seite und gestalten Sie ein einfaches Todo-App-Layout mithilfe der Streamlit-Assets (Assets-Bibliothek nach „st.“ filtern).
 
-Die TODO-App implementiert strikt das Model-View-Controller (MVC) Architekturmuster:
-
-**Warum MVC für diese Anwendung geeignet ist:**
-MVC trennt Datenlogik, Präsentation und Steuerung voneinander, was die Wartbarkeit und Testbarkeit erheblich verbessert. Die klare Trennung ermöglicht es, UI-Änderungen vorzunehmen ohne die Geschäftslogik zu beeinflussen. Für eine TODO-App mit CRUD-Operationen ist MVC ideal, da Tasks (Model) unabhängig von ihrer Darstellung (View) verwaltet werden können. Die Controller-Schicht koordiniert Nutzerinteraktionen effizient und macht die Anwendung erweiterbar. Streamlit's reaktives Rendering passt gut zum MVC-Pattern, da Views automatisch bei Datenänderungen aktualisiert werden. Die Architektur unterstützt auch zukünftige Features wie Cloud-Synchronisation durch einfachen Austausch der Persistierung-Logik im Model.
+## 4. Architektur & Qualitätsrestriktionen
+### 4.1 MVC-Architektur
+Die TODO-App setzt strikt auf das Model-View-Controller-Muster, das Datenlogik, Darstellung und Steuerung trennt. Diese Trennung erhöht Wartbarkeit und Testbarkeit, erlaubt UI-Anpassungen ohne Geschäftslogikänderungen und macht die Anwendung für zukünftige Features (z. B. Cloud-Synchronisation) flexibel.
 
 #### Model (model.py)
 **Verantwortlichkeiten:**
-- Zentrale Domänenobjekte (`Task`, `Category`)
-- Datenzugriff und Persistierung (`TaskRepository`)
-- Validierungslogik für Tasks und Kategorien
-- JSON-Serialisierung/Deserialisierung
-- Geschäftsregeln (z.B. is_urgent())
+- Domänenobjekte wie `Task` und `Category`
+- Persistierung über `TaskRepository` (JSON-basierte Ablage)
+- Validierungslogik (z. B. Pflichtfelder, Anzahl Kategorien)
+- JSON-Serialisierung/-Deserialisierung
+- Geschäftsregeln wie `is_urgent()`
 
 **Implementierte Klassen:**
-- `Task`: Domänenobjekt für Aufgaben mit Validierung
-- `Category`: Domänenobjekt für Kategorien (max. 5)
-- `TaskRepository`: Data Access Layer für JSON-Persistierung (FR-01)
+- `Task`: Repräsentiert eine Aufgabe mit Validierung
+- `Category`: Beinhaltet Kategorien, maximal fünf pro Nutzer
+- `TaskRepository`: Data Access Layer für die persistente Speicherung (FR-00)
 
 #### View (view.py)
 **Verantwortlichkeiten:**
 - UI-Rendering mit Streamlit-Komponenten
-- Formulare für Task-Eingabe und -Bearbeitung
-- Listen-Darstellung von Tasks (FR-05)
-- Responsive Design und CSS-Styling
-- Nielsen Usability Heuristics in UI-Elementen
+- Formulare zur Anlage und Bearbeitung von Aufgaben
+- Darstellung als Task-Liste und Statistikbereich
+- Responsive Layouts und CSS-Styling
+- Integration der Nielsen-Heuristiken in die Benutzeroberfläche
 
 **Implementierte Klassen:**
-- `TaskView`: Darstellung von Task-Formularen und Listen
-- `CategoryView`: Kategorie-Verwaltungs-UI (FR-06)
-- `SidebarView`: Filter- und Statistik-Anzeige (FR-07)
-- `ArchiveView`: Archiv-Darstellung
-- `LayoutView`: Responsive CSS und Layout-Komponenten
+- `TaskView`: Formulare und Listenansicht für Tasks
+- `CategoryView`: Verwaltung und Anzeige von Kategorien (FR-05)
+- `SidebarView`: Filteroptionen und Statistiken (FR-06, FR-07)
+- `ArchiveView`: Ansicht archivierter erledigter Aufgaben (FR-09)
+- `LayoutView`: Responsive Layout-Komponenten und globales CSS
 
 #### Controller (controller.py)
 **Verantwortlichkeiten:**
-- Koordination zwischen Model und View
-- CRUD-Operationen für Tasks (FR-00, FR-02, FR-03, FR-04)
-- Event-Handling und Datenfluss-Steuerung
-- Geschäftslogik für Filterung und Statistiken
+- Vermittlung zwischen Model und View
+- CRUD-Operationen für Tasks (FR-00 bis FR-04)
+- Event Handling und Steuerung des Datenflusses
+- Geschäftslogik für Filter, Sortierung und Statistiken
 - Session-State-Management
 
 **Implementierte Klassen:**
-- `TaskController`: Steuerung aller Task-Operationen (Create, Read, Update, Delete, Toggle)
-- `CategoryController`: Verwaltung von Kategorien
-- `ApplicationController`: Haupt-Controller als Fassade für die Anwendung
+- `TaskController`: Create, Read, Update, Delete, Toggle-Erledigt-Status
+- `CategoryController`: Verwaltung der Kategorien
+- `ApplicationController`: Fassade für alle Controller und Initialisierung der Anwendung
 
 #### Main Application (app.py)
 **Verantwortlichkeiten:**
 - Einstiegspunkt der Anwendung
-- Session State Initialisierung
-- Verbindung von Controller und View
-- Streamlit-spezifische Konfiguration
+- Initialisierung des Session States
+- Verknüpfung von Controller und View
+- Streamlit-spezifische Konfigurationen
 - Event-Callbacks und Rerun-Logik
 
-### 3.2 Design Patterns
-
-Die folgenden Design Patterns sind implementiert:
-
+### 4.2 Design Patterns
+Folgende Entwurfsmuster sind umgesetzt:
 - **Repository Pattern**: `TaskRepository` kapselt Datenzugriff und Persistierung
-- **Facade Pattern**: `ApplicationController` bietet vereinfachten Zugang zu Task- und Category-Controllern
-- **Domain Model Pattern**: `Task` und `Category` repräsentieren Geschäftsobjekte mit Validierung
-- **MVC Pattern**: Strikte Trennung von Model, View und Controller
+- **Facade Pattern**: `ApplicationController` bietet eine zentrale Schnittstelle zu Task- und Category-Controllern
+- **Domain Model Pattern**: `Task` und `Category` modellieren Geschäftsobjekte mit Validierung
+- **MVC Pattern**: Klare Trennung von Model, View und Controller
 
+## 5. Usability-Nachverfolgbarkeit (Nielsen)
+Jede Nielsen-Heuristik ist explizit den UI-Komponenten zugeordnet, um die Gebrauchstauglichkeit nachweisbar zu machen.
 
-## 4. Usability Traceability (Nielsen)
+| Heuristik                                    | Konkrete Umsetzung                                                                                   |
+|----------------------------------------------|------------------------------------------------------------------------------------------------------|
+| Sichtbarkeit des Systemstatus                | `LayoutView` zeigt Fortschrittsanzeigen und Statusmeldungen beim Speichern bzw. Löschen an.          |
+| Übereinstimmung zwischen System und realer Welt | Labels, Kategorien und Terminangaben orientieren sich an vertrauter Todo-Terminologie.      |
+| Benutzerkontrolle und Freiheit               | `TaskView` erlaubt Abbrechen und erneutes Laden der Formulare, `SidebarView` setzt Filter zurück.    |
+| Konsistenz und Standards                      | Einheitliche Buttons, Icons und Streamlit-Stile in allen Views sorgen für durchgängiges Verhalten.  |
+| Fehlervermeidung                             | Validierung verhindert leere Titel, vor dem Löschen erscheint eine Bestätigung (FR-08).              |
+| Erkennung statt Erinnerung                   | Editierbare Listen und Filter erleichtern das Wiederfinden von Tasks ohne Gedächtnisleistung.        |
+| Flexibilität und Effizienz                   | Tastatur-Fokussierung, Shortcuts für Filter und Schnellaktionen erhöhen die Arbeitseffizienz.        |
+| Ästhetik und minimalistisches Design          | `LayoutView` und CSS sorgen für eine reduzierte, aufgeräumte Darstellung ohne unnötige Elemente.     |
+| Hilfe bei Fehlern                            | Hilfetexte, Fehlermeldungen und Validierungsfeedback geben klare Hinweise auf korrekte Eingaben.     |
+| Hilfe und Dokumentation                      | README, View-Tooltips und das Design-System-Referenzmaterial unterstützen bei der Nutzung.          |
 
-Each usability heuristic is explicitly mapped to UI elements.
-
-| Heuristic | Implementation Example |
-|----------|------------------------

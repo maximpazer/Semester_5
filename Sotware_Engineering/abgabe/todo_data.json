@@ -1,15 +1,34 @@
 {
-  "tasks": [],
-  "archived_tasks": [],
+  "tasks": [
+    {
+      "id": 21,
+      "title": "test essen",
+      "completed": false,
+      "category": "Test",
+      "due_date": "2026-01-14"
+    },
+    {
+      "id": 20,
+      "title": "lessen",
+      "completed": false,
+      "category": "Keine",
+      "due_date": "2026-01-10"
+    }
+  ],
+  "archived_tasks": [
+    {
+      "id": 17,
+      "title": "Hallo",
+      "completed": true,
+      "category": "Keine",
+      "due_date": "2026-01-08"
+    }
+  ],
   "categories": [
     {
       "name": "Test",
       "color": "#4e73df"
-    },
-    {
-      "name": "Hallo",
-      "color": "#4e73df"
     }
   ],
-  "next_id": 14
+  "next_id": 22
 }

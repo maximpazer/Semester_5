@@ -96,16 +96,16 @@ Folgende Entwurfsmuster sind umgesetzt:
 ## 5. Usability-Nachverfolgbarkeit (Nielsen)
 Jede Nielsen-Heuristik ist explizit den UI-Komponenten zugeordnet, um die Gebrauchstauglichkeit nachweisbar zu machen.
 
-| Heuristik                                    | Konkrete Umsetzung                                                                                   |
-|----------------------------------------------|------------------------------------------------------------------------------------------------------|
-| Sichtbarkeit des Systemstatus                | `LayoutView` zeigt Fortschrittsanzeigen und Statusmeldungen beim Speichern bzw. Löschen an.          |
-| Übereinstimmung zwischen System und realer Welt | Labels, Kategorien und Terminangaben orientieren sich an vertrauter Todo-Terminologie.      |
-| Benutzerkontrolle und Freiheit               | `TaskView` erlaubt Abbrechen und erneutes Laden der Formulare, `SidebarView` setzt Filter zurück.    |
-| Konsistenz und Standards                      | Einheitliche Buttons (beispielsweise das "hinzufügen"), Icons und Streamlit-Stile in allen Views sorgen für durchgängiges Verhalten.  |
-| Fehlervermeidung                             | Validierung verhindert leere Titel, vor dem Löschen erscheint eine Bestätigung (FR-08).              |
-| Erkennung statt Erinnerung                   | Editierbare Listen und Filter erleichtern das Wiederfinden von Tasks ohne Gedächtnisleistung.        |
-| Flexibilität und Effizienz                   | Sidebar mit dem Filter erhöhen die Arbeitseffizienz.        |
-| Ästhetik und minimalistisches Design          | `LayoutView` und CSS sorgen für eine reduzierte, aufgeräumte Darstellung ohne unnötige Elemente.     |
-| Hilfe bei Fehlern                            | Hilfetexte, Fehlermeldungen und Validierungsfeedback geben klare Hinweise auf korrekte Eingaben.     |
-| Hilfe und Dokumentation                      | README, View-Tooltips und das Design-System-Referenzmaterial unterstützen bei der Nutzung.          |
+| Heuristik | Konkrete Umsetzung im Code |
+|---|---|
+| **Sichtbarkeit des Systemstatus** | Das System nutzt moderne Toast-Notifications (`st.toast`) für unaufdringliches, aber klares Feedback ("Änderungen gespeichert!") nach jeder Speicheraktion. |
+| **Übereinstimmung System/Realität** | `TaskView` verwendet natürliche Sprache für Fälligkeitsdaten („heute“, „morgen“, „in 3 Tagen“) statt technischer Datumsformate. |
+| **Benutzerkontrolle & Freiheit** | Nutzer können versehentlich gelöschte Aufgaben über die `ArchiveView` („Wiederherstellen“-Button) zurückholen; Bearbeitungsdialoge haben einen expliziten „Abbrechen“-Button. |
+| **Konsistenz & Standards** | Identisches Verhalten bei kritischen Aktionen: Sowohl Aufgaben (`TaskView`) als auch Kategorien (`CategoryView`) nutzen exakt denselben Zwei-Schritt-Löschprozess (🗑 -> ✖), um kognitive Last zu minimieren. |
+| **Fehlervermeidung** | Zwei-Stufen-Bestätigung verhindert das versehentliche Löschen von Daten. Der Bestätigungs-Button ändert sich dynamisch, erfordert also eine bewusste Bestätigung. |
+| **Wiedererkennung statt Erinnerung** | Eingabefelder nutzen `placeholder`-Texte (z. B. „Was möchten Sie erledigen?“), um das erwartete Format anzuzeigen, ohne dass der Nutzer eine Hilfe lesen muss. |
+| **Flexibilität & Effizienz** | Die `SidebarView` ermöglicht Power-Usern das schnelle Filtern nach Kategorien und Status, während Dringlichkeit durch Farbcodierung (roter Rand) sofort scannbar ist. |
+| **Ästhetik & Minimalismus** | `label_visibility="collapsed"` wird in Formularen genutzt, um visuelles Rauschen zu reduzieren; `st.expander` versteckt selten genutzte Funktionen wie das Kategorie-Management. |
+| **Hilfe bei Fehlern** | Wenn eine leere Kategorie angelegt wird, gibt `CategoryView` eine spezifische Fehlermeldung via `st.error` aus („Bitte Namen eingeben“), statt nichts zu tun. |
+| **Hilfe & Dokumentation** | Eine Kurzanleitung mit Symbol-Erklärung ist direkt in der App über `LayoutView.render_help` als aufklappbare Info-Box verfügbar. |
 

@@ -112,8 +112,9 @@ class TaskView:
         meta = []
         if task.category and task.category != "Keine":
             color = get_color_func(task.category)
+            text_color = LayoutView.get_text_color_for_bg(color)
             meta.append(
-                f"<span style='background:{color}; color:#0e1117; padding:1px 6px; border-radius:4px; "
+                f"<span style='background:{color}; color:{text_color}; padding:1px 6px; border-radius:4px; "
                 f"font-size:0.7rem; font-weight:700;'>{html.escape(task.category)}</span>"
             )
         
@@ -141,12 +142,14 @@ class TaskView:
         with c2:
             confirm_key = f"del_confirm_{task.id}"
             if st.session_state.get(confirm_key):
-                if st.button("❌", key=f"confirm_{task.id}", help="Bestätigen", type="primary"):
+                if st.button("✖", key=f"confirm_{task.id}", help="Bestätigen"):
                     on_delete(task.id)
                     st.session_state[confirm_key] = False
+                    st.rerun()
             else:
                 if st.button("🗑", key=f"del_{task.id}", help="Löschen"):
                     st.session_state[confirm_key] = True
+                    st.rerun()
     
     @staticmethod
     def render_edit_form(task: Task, categories: List[str]) -> dict:
@@ -232,15 +235,33 @@ class CategoryView:
     def _render_category_list(categories_with_colors: List[Dict], on_delete) -> None:
         """Rendert Liste bestehender Kategorien mit Farbanzeige"""
         for cat in categories_with_colors:
-            cols = st.columns([0.2, 4, 1])
+            cols = st.columns([0.6, 3, 1])
+            
+            # Farb-Quadrat (Swatch)
             cols[0].markdown(
-                f"<div style='width:12px; height:12px; background:{cat['color']}; "
-                f"border-radius:3px; margin-top:6px;'></div>",
+                f"<div style='width:18px; height:18px; background:{cat['color']}; "
+                f"border-radius:4px; margin-top:4px;'></div>",
                 unsafe_allow_html=True
             )
-            cols[1].write(cat['name'])
-            if cols[2].button("✕", key=f"del_cat_{cat['name']}", help=f"'{cat['name']}' löschen"):
-                on_delete(cat['name'])
+            
+            # Name als Text daneben (explizit hell für Sidebar-Kontrast)
+            cols[1].markdown(
+                f"<div style='margin-top:2px; padding-left:4px; white-space:nowrap; overflow:hidden; "
+                f"text-overflow:ellipsis; opacity:0.9;'>{html.escape(cat['name'])}</div>",
+                unsafe_allow_html=True
+            )
+            
+            # Löschen mit Bestätigung (Two-Step-Delete)
+            confirm_key = f"del_cat_confirm_{cat['name']}"
+            if st.session_state.get(confirm_key):
+                if cols[2].button("✖", key=f"confirm_cat_{cat['name']}", help="Bestätigen"):
+                    on_delete(cat['name'])
+                    st.session_state[confirm_key] = False
+                    st.rerun()
+            else:
+                if cols[2].button("🗑", key=f"del_cat_{cat['name']}", help=f"'{cat['name']}' löschen"):
+                    st.session_state[confirm_key] = True
+                    st.rerun()
 
 
 class SidebarView:
@@ -314,6 +335,18 @@ class LayoutView:
     """Layout und Styling"""
     
     @staticmethod
+    def get_text_color_for_bg(hex_color: str) -> str:
+        """Berechnet ideale Textfarbe (Schwarz/Weiß) für Hintergrund"""
+        try:
+            hex_color = hex_color.lstrip('#')
+            if len(hex_color) == 3: hex_color = ''.join([c*2 for c in hex_color])
+            r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+            luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+            return "#0e1117" if luminance > 0.5 else "#ffffff"
+        except:
+            return "#0e1117"
+
+    @staticmethod
     def apply_responsive_css() -> None:
         st.markdown("""
         <style>
@@ -332,9 +365,14 @@ class LayoutView:
         """Rendert Header"""
         cols = st.columns([4, 1])
         with cols[0]: st.markdown("# TODO App")
-        with cols[1]:
-            if last_save_time and (datetime.now() - last_save_time).seconds < 4:
-                st.success("✓", icon="💾")
+        
+        # Toast statt statisches Icon (bessere UX)
+        if last_save_time:
+            # Checken ob Toast für diesen Save schon gezeigt wurde
+            last_shown = st.session_state.get('last_toast_shown')
+            if last_shown != last_save_time:
+                st.toast("Änderungen gespeichert!", icon="💾")
+                st.session_state['last_toast_shown'] = last_save_time
     
     @staticmethod
     def render_help() -> None:

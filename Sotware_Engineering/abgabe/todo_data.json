@@ -1,21 +1,15 @@
 {
-  "tasks": [
+  "tasks": [],
+  "archived_tasks": [],
+  "categories": [
     {
-      "id": 12,
-      "title": "test",
-      "completed": false,
-      "category": "Keine",
-      "due_date": null
+      "name": "Test",
+      "color": "#4e73df"
     },
     {
-      "id": 11,
-      "title": "test",
-      "completed": false,
-      "category": "Keine",
-      "due_date": null
+      "name": "Hallo",
+      "color": "#4e73df"
     }
   ],
-  "archived_tasks": [],
-  "categories": [],
-  "next_id": 13
+  "next_id": 14
 }

@@ -1,10 +1,8 @@
-"""
-CONTROLLER - Steuerungslogik der TODO-App
-Verantwortlichkeiten:
-- Koordination zwischen Model und View
-- Geschäftslogik für CRUD-Operationen
-- Event-Handling und Datenfluss-Steuerung
-"""
+# CONTROLLER - Steuerungslogik der TODO-App
+# Verantwortlichkeiten:
+# - Koordination zwischen Model und View
+# - Geschäftslogik für CRUD-Operationen
+# - Event-Handling und Datenfluss-Steuerung
 
 from datetime import date
 from typing import List, Optional, Dict
@@ -17,10 +15,6 @@ class TaskController:
     def __init__(self, repository: TaskRepository):
         self.repository = repository
     
-    # ========================================================================
-    # CREATE - FR-00
-    # ========================================================================
-    
     def create_task(self, title: str, category: str = "Keine", 
                    due_date: Optional[date] = None) -> bool:
         """Erstellt eine neue Task"""
@@ -31,18 +25,15 @@ class TaskController:
             due_date=due_date.isoformat() if due_date else None
         )
         return self.repository.add_task(task)
-    
-    # ========================================================================
-    # READ - FR-05
-    # ========================================================================
-    
+
+
     def get_all_tasks(self) -> List[Task]:
         """Gibt alle Tasks zurück"""
         return self.repository.get_all_tasks()
     
     def get_filtered_tasks(self, status: Optional[str] = None,
                           category: Optional[str] = None) -> List[Task]:
-        """Gibt gefilterte Tasks zurück (FR-07)"""
+        """Gibt gefilterte Tasks zurück (FR-05)"""
         return self.repository.filter_tasks(status, category)
     
     def get_task(self, task_id: int) -> Optional[Task]:
@@ -56,10 +47,6 @@ class TaskController:
     def get_urgent_tasks(self) -> List[Task]:
         """Gibt dringliche Tasks zurück"""
         return self.repository.get_urgent_tasks()
-    
-    # ========================================================================
-    # UPDATE - FR-03, FR-04
-    # ========================================================================
     
     def update_task(self, task_id: int, title: str, category: str,
                    due_date: Optional[date] = None) -> bool:
@@ -79,29 +66,11 @@ class TaskController:
     def restore_task(self, task_id: int) -> bool:
         """Stellt archivierte Task wieder her"""
         return self.repository.restore_task(task_id)
-    
-    # ========================================================================
-    # DELETE - FR-02
-    # ========================================================================
-    
+        
     def delete_task(self, task_id: int) -> bool:
         """Löscht eine Task (FR-02)"""
         return self.repository.delete_task(task_id)
     
-    # ========================================================================
-    # Statistiken
-    # ========================================================================
-    
-    def get_statistics(self) -> dict:
-        """Berechnet Task-Statistiken"""
-        tasks = self.get_all_tasks()
-        return {
-            "total": len(tasks),
-            "open": sum(1 for t in tasks if not t.completed),
-            "done": sum(1 for t in tasks if t.completed),
-            "archived": len(self.get_archived_tasks())
-        }
-
 
 class CategoryController:
     """Controller für Kategorie-Operationen"""
@@ -110,7 +79,7 @@ class CategoryController:
         self.repository = repository
     
     def get_all_categories(self) -> List[str]:
-        """Gibt nur die Namen der Kategorien zurück (für Selectboxes)"""
+        """Gibt die Namen der Kategorien zurück"""
         return [c["name"] for c in self.repository.get_categories()]
     
     def get_categories_with_colors(self) -> List[Dict]:
@@ -122,7 +91,7 @@ class CategoryController:
         return self.repository.get_category_color(name)
     
     def create_category(self, name: str, color: str = "#e8e8e8") -> bool:
-        """Erstellt neue Kategorie mit Farbe (FR-06)"""
+        """Erstellt neue Kategorie mit Farbe (FR-12)"""
         category = Category(name.strip(), color)
         return self.repository.add_category(category)
     

@@ -1,18 +1,11 @@
-"""
-Minimalistische TODO-App mit Streamlit
-MVC-Architektur Implementation
-Mit Nielsen-Usability-Prinzipien
-"""
-
+# orchestrierung
+# MVC-Architektur
 import streamlit as st
 from datetime import datetime
 from controller import ApplicationController
 from view import (TaskView, CategoryView, SidebarView, ArchiveView, LayoutView)
 
-# ============================================================================
 # SESSION STATE INITIALISIERUNG
-# ============================================================================
-
 if "app_controller" not in st.session_state:
     st.session_state.app_controller = ApplicationController()
 
@@ -34,17 +27,12 @@ if "show_help" not in st.session_state:
 if "last_save_time" not in st.session_state:
     st.session_state.last_save_time = None
 
-# ============================================================================
 # CONTROLLER INSTANZEN
-# ============================================================================
-
 app_controller = st.session_state.app_controller
 task_controller = app_controller.get_task_controller()
 category_controller = app_controller.get_category_controller()
 
-# ============================================================================
 # STREAMLIT UI
-# ============================================================================
 
 # Page Config
 st.set_page_config(
@@ -58,12 +46,10 @@ LayoutView.apply_responsive_css()
 # Header
 LayoutView.render_header(st.session_state.last_save_time)
 
-# ============================================================================
-# SIDEBAR: FILTER & VERWALTUNG (FR-07)
-# ============================================================================
+# SIDEBAR: FILTER (FR-05)
 
 with st.sidebar:
-    # Filter
+    # liefert dictionary mit filter_status und filter_category
     filter_result = SidebarView.render_filters(
         st.session_state.filter_status,
         st.session_state.filter_category,
@@ -74,7 +60,7 @@ with st.sidebar:
     
     st.divider()
     
-    # Kategorie-Management
+    # Kategorie-Management (lambda = anonyme inline-definierte Funktionen)
     CategoryView.render_category_management(
         categories_with_colors=category_controller.get_categories_with_colors(),
         can_add=category_controller.can_add_category(),
@@ -89,9 +75,7 @@ with st.sidebar:
     st.session_state.show_archived = toggle_result["show_archived"]
     st.session_state.show_help = toggle_result["show_help"]
 
-# ============================================================================
 # HAUPTBEREICH: NEUE AUFGABE
-# ============================================================================
 
 form_data = TaskView.render_task_form(category_controller.get_all_categories())
 
@@ -109,9 +93,7 @@ if form_data["submitted"]:
 if st.session_state.show_help:
     LayoutView.render_help()
 
-# ============================================================================
 # AUFGABENLISTE (FR-05)
-# ============================================================================
 
 st.markdown("### Aufgaben")
 
@@ -167,9 +149,7 @@ else:
         get_color_func=category_controller.get_category_color
     )
 
-# ============================================================================
 # ARCHIV
-# ============================================================================
 
 if st.session_state.show_archived:
     ArchiveView.render_archive(

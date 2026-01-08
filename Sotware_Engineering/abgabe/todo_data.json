@@ -1,88 +1,21 @@
 {
   "tasks": [
     {
-      "id": 9,
-      "title": "Software Engineering Figma",
-      "completed": false,
-      "category": "Privat",
-      "due_date": "2026-01-09"
-    },
-    {
-      "id": 7,
-      "title": "auto",
-      "completed": false,
-      "category": "Keine",
-      "due_date": null
-    },
-    {
-      "id": 6,
-      "title": "Hund essen",
-      "completed": false,
-      "category": "Keine",
-      "due_date": null
-    },
-    {
-      "id": 3,
-      "title": "Ente kochen",
-      "completed": false,
-      "category": "Ente",
-      "due_date": "2026-01-09"
-    }
-  ],
-  "archived_tasks": [
-    {
-      "id": 8,
-      "title": "ficken",
-      "completed": true,
-      "category": "Keine",
-      "due_date": null
-    },
-    {
-      "id": 5,
-      "title": "Ente auswöhlen",
-      "completed": true,
-      "category": "Arbeit",
-      "due_date": "2026-01-09"
-    },
-    {
-      "id": 2,
-      "title": "Auto waschen",
-      "completed": true,
-      "category": "Arbeit",
-      "due_date": "2026-01-06"
-    },
-    {
-      "id": 1,
+      "id": 12,
       "title": "test",
-      "completed": true,
-      "category": "Arbeit",
-      "due_date": "2026-01-06"
+      "completed": false,
+      "category": "Keine",
+      "due_date": null
     },
     {
-      "id": 4,
-      "title": "Laura pflegen",
-      "completed": true,
-      "category": "Privat",
-      "due_date": "2026-01-07"
+      "id": 11,
+      "title": "test",
+      "completed": false,
+      "category": "Keine",
+      "due_date": null
     }
   ],
-  "categories": [
-    {
-      "name": "Arbeit",
-      "color": "#4e73df"
-    },
-    {
-      "name": "Privat",
-      "color": "#1cc88a"
-    },
-    {
-      "name": "Auto",
-      "color": "#36b9cc"
-    },
-    {
-      "name": "Ente",
-      "color": "#aac13a"
-    }
-  ],
-  "next_id": 10
+  "archived_tasks": [],
+  "categories": [],
+  "next_id": 13
 }

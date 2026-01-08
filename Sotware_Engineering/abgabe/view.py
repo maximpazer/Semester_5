@@ -1,11 +1,9 @@
-"""
-VIEW - Präsentationsschicht der TODO-App
-Verantwortlichkeiten:
-- UI-Rendering mit Streamlit
-- Darstellung von Tasks und Kategorien
-- Nutzerinteraktionen (Formulare, Buttons)
-- Nielsen Usability Heuristics Implementation
-"""
+# VIEW = Präsentationsschicht 
+# Verantwortlichkeiten:
+# - UI-Rendering mit Streamlit
+# - Darstellung von Tasks und Kategorien
+# - Nutzerinteraktionen (Formulare, Buttons)
+# - Nielsen Usability Heuristics Implementation
 
 import streamlit as st
 import html
@@ -75,7 +73,7 @@ class TaskView:
         if not tasks:
             st.markdown(
                 "<div style='text-align:center; padding:2rem; opacity:0.5;'>"
-                "📝 Keine Aufgaben vorhanden</div>",
+                "Keine Aufgaben vorhanden</div>",
                 unsafe_allow_html=True
             )
             return
@@ -317,7 +315,6 @@ class LayoutView:
     
     @staticmethod
     def apply_responsive_css() -> None:
-        """Wendet minimalistisches CSS an"""
         st.markdown("""
         <style>
             .main .block-container { padding: 1.5rem 1rem; max-width: 800px; }
@@ -341,5 +338,14 @@ class LayoutView:
     
     @staticmethod
     def render_help() -> None:
-        """Rendert Hilfe"""
-        st.info("Eintragen → ➕. Erledigt? → Abhaken. ✏️ bearbeiten, 🗑 löschen.", icon="💡")
+        """Rendert Hilfe (kurze, klare Anleitung)"""
+        st.info(
+            "Kurzanleitung:\n\n"
+            "- Neue Aufgabe: Titel → Kategorie wählen (optional) → Fälligkeitsdatum (optional) → ➕\n"
+            "- Erledigen: Checkbox anklicken\n"
+            "- Bearbeiten: ✏️ drücken → Änderungen speichern\n"
+            "- Löschen: 🗑 drücken → nochmals ❌ bestätigen\n"
+            "- Filter: Seitenleiste nutzen, um Aufgaben einzuschränken\n\n"
+            "Tipp: Verwende kurze Titel und farbige Kategorien für bessere Übersicht.",
+            icon="💡"
+        )

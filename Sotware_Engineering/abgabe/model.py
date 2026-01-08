@@ -1,10 +1,8 @@
-"""
-MODEL - Datenschicht der TODO-App
-Verantwortlichkeiten:
-- Domänenobjekte (Task, Category)
-- Datenzugriff und Persistierung
-- Validierungslogik
-"""
+#MODEL = Datenschicht der TODO-App
+# Verantwortlichkeiten:
+# - Domänenobjekte (Task, Category)
+# - Datenzugriff und Persistierung
+# - Validierungslogik
 
 import json
 from pathlib import Path
@@ -13,7 +11,7 @@ from typing import List, Optional, Dict
 
 
 class Task:
-    """Domänenobjekt für eine Aufgabe (FR-00)"""
+    """Erstellung einer Task FR-01"""
     
     def __init__(self, id: int, title: str, completed: bool = False, 
                  category: str = "Keine", due_date: Optional[str] = None):
@@ -35,10 +33,10 @@ class Task:
             due = datetime.fromisoformat(self.due_date).date()
             today = date.today()
             tomorrow = today + timedelta(days=1)
-            return due == today or due == tomorrow
+            return due == today or due == tomorrow 
         except:
             return False
-    
+    #
     def to_dict(self) -> Dict:
         """Serialisiert Task für JSON-Speicherung"""
         return {
@@ -62,9 +60,9 @@ class Task:
 
 
 class Category:
-    """Domänenobjekt für Kategorien (FR-06)"""
+    """Implementierung von Kategorien FR-05/ FR-12"""
     
-    MAX_CATEGORIES = 8
+    MAX_CATEGORIES = 20
     
     def __init__(self, name: str, color: str = "#e8e8e8"):
         self.name = name
@@ -76,12 +74,11 @@ class Category:
 
 
 class TaskRepository:
-    """Datenzugriff und Persistierung (FR-01)"""
+    """Datenzugriff und Persistierung FR-00"""
     
     def __init__(self, data_file: Path = Path("todo_data.json")):
         self.data_file = data_file
         self.data = self._load_data()
-        self._migrate_categories()
     
     def _load_data(self) -> Dict:
         """Lädt Daten aus JSON-Datei"""
@@ -93,38 +90,13 @@ class TaskRepository:
                 return self._get_default_data()
         return self._get_default_data()
     
-    def _migrate_categories(self) -> None:
-        """Migriert alte String-Kategorien zu Objekten falls nötig"""
-        if not self.data.get("categories"):
-            self.data["categories"] = self._get_default_data()["categories"]
-            self.save()
-            return
-
-        new_categories = []
-        changed = False
-        default_colors = ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b", "#858796"]
-        
-        for i, cat in enumerate(self.data["categories"]):
-            if isinstance(cat, str):
-                color = default_colors[i % len(default_colors)]
-                new_categories.append({"name": cat, "color": color})
-                changed = True
-            else:
-                new_categories.append(cat)
-        
-        if changed:
-            self.data["categories"] = new_categories
-            self.save()
-    
     def _get_default_data(self) -> Dict:
         """Gibt Standard-Datenstruktur zurück"""
         return {
             "tasks": [],
             "archived_tasks": [],
             "categories": [
-                {"name": "Arbeit", "color": "#4e73df"},
-                {"name": "Privat", "color": "#1cc88a"}
-            ],
+                {"name": "Keine", "color": "#e8e8e8"}],
             "next_id": 1
         }
     
@@ -194,7 +166,7 @@ class TaskRepository:
         """Markiert Task als erledigt/offen (FR-04)"""
         for i, task_data in enumerate(self.data["tasks"]):
             if task_data["id"] == task_id:
-                task_data["completed"] = not task_data["completed"]
+                task_data["completed"] = not task_data["completed"] #invertieren
                 # Bei Erledigung ins Archiv verschieben
                 if task_data["completed"]:
                     if "archived_tasks" not in self.data:
@@ -230,7 +202,7 @@ class TaskRepository:
         return "#e8e8e8"
     
     def add_category(self, category: Category) -> bool:
-        """Fügt neue Kategorie hinzu (FR-06)"""
+        """Fügt neue Kategorie hinzu (FR-05)"""
         if not category.validate():
             return False
         if any(c["name"] == category.name for c in self.data["categories"]):

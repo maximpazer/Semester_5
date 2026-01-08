@@ -3,13 +3,11 @@
 ## 1. Projektübersicht
 Diese Anwendung ist eine plattformübergreifende TODO-Lösung, die nach den Best Practices des Software Engineerings entwickelt wurde. Sie integriert Requirements Engineering nach dem SMART-Prinzip, eine klare MVC-Architektur und bewährte Design Patterns.
 
-Das Ziel ist ein wartbares System, das funktionale und nicht-funktionale Anforderungen gleichermaßen erfüllt und umfassend dokumentiert ist.
-
 ## 2. Anforderungsanalyse – Block 2
 Alle Anforderungen sind entlang des **SMART-Prinzips** (Specific, Measurable, Accepted, Realistic, Timely)
 
 ### 2.1 Funktionale Anforderungen
-Funktionale Anforderungen beschreiben **was** das System leisten muss. 00-04 entsprechen den Anforderungen aus den Folien fünf MUSS-Anforderungen wurden vollständig implementiert.
+Funktionale Anforderungen beschreiben **was** das System leisten muss. 00-04 entsprechen den Anforderungen aus den Folien.
 
 | ID     | Beschreibung                                                                 | Priorität |
 |--------|------------------------------------------------------------------------------|-----------|
@@ -31,21 +29,12 @@ Funktionale Anforderungen beschreiben **was** das System leisten muss. 00-04 ent
 ## 3. Streamlit-Benutzeroberfläche – Block 3
 → Link zu Figma (noch in Arbeit)
 
-Streamlit Plugin:
-https://www.figma.com/community/plugin/1167469184805790690/figma-to-streamlit
-
-Streamlit Design System:
-https://www.figma.com/community/file/1166786573904778097
-
-1. Öffnen Sie das Streamlit-Designsystem und machen Sie sich mit den Komponenten vertraut.
-2. Erstellen Sie eine neue Seite und gestalten Sie ein einfaches Todo-App-Layout mithilfe der Streamlit-Assets (Assets-Bibliothek nach „st.“ filtern).
-
 ## 4. Architektur
 ### 4.1 MVC-Architektur
 ### Wieso MVC?
 Die Model-View-Controller-(MVC)-Architektur eignet sich besonders gut für eine TODO-Anwendung, da sie eine strikte Trennung der Verantwortlichkeiten durch die Aufteilung in drei klar definierte Schichten erzwingt: das Model (Daten und Geschäftslogik), die View (Benutzerschnittstelle) und den Controller (Steuerung und Koordination des Anwendungsablaufs). Diese Struktur überführt funktionale Anforderungen in eine klare Mikroarchitektur, reduziert die kognitive Komplexität und erleichtert es, das System zu verstehen, zu warten und weiterzuentwickeln. Durch die explizite Zuordnung von Zuständigkeiten – etwa die Verwaltung persistenter Aufgabendaten im Model oder die Verarbeitung von Benutzeraktionen wie dem Hinzufügen oder Löschen von Einträgen im Controller – wird der Code konsistenter und besser nachvollziehbar.
 
-Darüber hinaus unterstützt MVC die Erweiterbarkeit des Systems, da wiederkehrende technische Probleme nach einheitlichen Mustern gelöst werden. Dies erleichtert die Integration neuer Funktionalitäten und fördert die langfristige Wartbarkeit. Die Fachliteratur hebt zudem hervor, dass der Einsatz etablierter Architekturpatterns wie MVC zur Softwarequalität beiträgt, indem er eine frühe Ausrichtung an Qualitätsmerkmalen und Stakeholder-Anforderungen begünstigt. Schließlich ermöglicht die Entkopplung von View und Model, die Benutzeroberfläche zu verändern, ohne die zugrunde liegende Datenhaltung oder Geschäftslogik anpassen zu müssen – ein zentrales Merkmal professioneller Softwareentwicklung.
+MVC unterstützt die Erweiterbarkeit des Systems, da wiederkehrende technische Probleme nach einheitlichen Mustern gelöst werden. Dies erleichtert die Integration neuer Funktionalitäten und fördert die langfristige Wartbarkeit. Die Fachliteratur hebt zudem hervor, dass der Einsatz etablierter Architekturpatterns wie MVC zur Softwarequalität beiträgt, indem er eine frühe Ausrichtung an Qualitätsmerkmalen und Stakeholder-Anforderungen begünstigt. Schließlich ermöglicht die Entkopplung von View und Model, die Benutzeroberfläche zu verändern, ohne die zugrunde liegende Datenhaltung oder Geschäftslogik anpassen zu müssen – ein zentrales Merkmal professioneller Softwareentwicklung.
 
 ### Implementierung von MVC
 #### Model (model.py)

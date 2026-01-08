@@ -1,5 +1,5 @@
 """
-Unit Tests für TODO-App | pytest | AAA-Muster | Ziel: >80% Coverage
+Unit Tests für TODO-App | pytest | AAA-Muster | Ziel: >=80% Coverage
 
 python -m pytest tests/test_unit.py -v --tb=short && python -m pytest tests/test_unit.py --cov=model --cov=controller --cov-report=term-missing && wc -l tests/test_unit.py
 """

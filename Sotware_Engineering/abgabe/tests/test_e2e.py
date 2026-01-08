@@ -2,6 +2,7 @@
 End-to-End Tests für TODO-App
 Framework: pytest + Playwright
 Testet echte Benutzerinteraktionen im Browser mit Streamlit-UI
+pytest -q tests/test_e2e.py
 """
 import pytest
 import subprocess

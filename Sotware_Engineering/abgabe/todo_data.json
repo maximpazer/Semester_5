@@ -1,34 +1,19 @@
 {
-  "tasks": [
-    {
-      "id": 21,
-      "title": "test essen",
-      "completed": false,
-      "category": "Test",
-      "due_date": "2026-01-14"
-    },
-    {
-      "id": 20,
-      "title": "lessen",
-      "completed": false,
-      "category": "Keine",
-      "due_date": "2026-01-10"
-    }
-  ],
-  "archived_tasks": [
-    {
-      "id": 17,
-      "title": "Hallo",
-      "completed": true,
-      "category": "Keine",
-      "due_date": "2026-01-08"
-    }
-  ],
+  "tasks": [],
+  "archived_tasks": [],
   "categories": [
     {
-      "name": "Test",
-      "color": "#4e73df"
+      "name": "DHBW",
+      "color": "#dc410d"
+    },
+    {
+      "name": "HPE",
+      "color": "#37b902"
+    },
+    {
+      "name": "Personal",
+      "color": "#0677e2"
     }
   ],
-  "next_id": 22
+  "next_id": 32
 }

@@ -144,23 +144,23 @@ class TaskRepository:
         return False
     
     def delete_task(self, task_id: int) -> bool:
-        """Löscht Task (FR-02) - aus aktiven Tasks oder Archiv"""
-        # Aus aktiven Tasks löschen
-        original_len = len(self.data["tasks"])
-        self.data["tasks"] = [t for t in self.data["tasks"] if t["id"] != task_id]
+        """Löscht Task (FR-02) - löscht endgültig (egal ob aktiv oder archiviert)"""
+        # Aus aktiven Tasks entfernen
+        for i, task_data in enumerate(self.data["tasks"]):
+            if task_data["id"] == task_id:
+                self.data["tasks"].pop(i)
+                self.save()
+                return True
         
-        # Aus Archiv löschen falls nicht in aktiven gefunden
-        if len(self.data["tasks"]) == original_len:
-            if "archived_tasks" in self.data:
-                original_archived_len = len(self.data["archived_tasks"])
-                self.data["archived_tasks"] = [t for t in self.data["archived_tasks"] if t["id"] != task_id]
-                if len(self.data["archived_tasks"]) < original_archived_len:
-                    self.save()
-                    return True
-            return False
+        # Falls nicht in aktiven Tasks: Aus Archiv endgültig löschen
+        if "archived_tasks" in self.data:
+            original_archived_len = len(self.data["archived_tasks"])
+            self.data["archived_tasks"] = [t for t in self.data["archived_tasks"] if t["id"] != task_id]
+            if len(self.data["archived_tasks"]) < original_archived_len:
+                self.save()
+                return True
         
-        self.save()
-        return True
+        return False
     
     def toggle_task_completion(self, task_id: int) -> bool:
         """Markiert Task als erledigt/offen (FR-04)"""

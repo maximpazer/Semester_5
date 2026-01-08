@@ -1,6 +1,7 @@
 """
 Integrationstests für TODO-App
 Testet das Zusammenspiel: Controller ↔ Repository ↔ Dateisystem
+pytest -q tests/test_integration.py
 """
 import pytest
 from model import Task, TaskRepository

@@ -134,21 +134,34 @@ class TaskView:
     
     @staticmethod
     def _render_task_actions(task: Task, on_edit, on_delete) -> None:
-        """Rendert Task-Aktionsbuttons"""
+        """Rendert Task-Aktionsbuttons mit Auto-Reset nach 5 Sekunden"""
         c1, c2 = st.columns(2)
         with c1:
             if st.button("✏️", key=f"edit_{task.id}", help="Bearbeiten"):
                 on_edit(task.id)
         with c2:
             confirm_key = f"del_confirm_{task.id}"
+            confirm_time_key = f"del_confirm_time_{task.id}"
+            
+            # Auto-Reset wenn mehr als 5 Sekunden vergangen
+            if st.session_state.get(confirm_key):
+                confirm_time = st.session_state.get(confirm_time_key)
+                if confirm_time and (datetime.now() - confirm_time).seconds > 5:
+                    st.session_state[confirm_key] = False
+                    del st.session_state[confirm_time_key]
+                    st.rerun()
+            
             if st.session_state.get(confirm_key):
                 if st.button("✖", key=f"confirm_{task.id}", help="Bestätigen"):
                     on_delete(task.id)
                     st.session_state[confirm_key] = False
+                    if confirm_time_key in st.session_state:
+                        del st.session_state[confirm_time_key]
                     st.rerun()
             else:
                 if st.button("🗑", key=f"del_{task.id}", help="Löschen"):
                     st.session_state[confirm_key] = True
+                    st.session_state[confirm_time_key] = datetime.now()
                     st.rerun()
     
     @staticmethod
@@ -184,10 +197,10 @@ class TaskView:
             today = date.today()
             diff = (due - today).days
             if diff < 0: return "⚠️ überfällig"
-            elif diff == 0: return "📅 heute"
-            elif diff == 1: return "📅 morgen"
-            elif diff <= 7: return f"📅 in {diff} Tagen"
-            else: return f"📅 {due.strftime('%d.%m.')}"
+            elif diff == 0: return "heute"
+            elif diff == 1: return "morgen"
+            elif diff <= 7: return f"in {diff} Tagen"
+            else: return f"{due.strftime('%d.%m.%Y')}"
         except ValueError: return None
 
 
@@ -251,16 +264,29 @@ class CategoryView:
                 unsafe_allow_html=True
             )
             
-            # Löschen mit Bestätigung (Two-Step-Delete)
+            # Löschen mit Bestätigung (Two-Step-Delete) + Auto-Reset
             confirm_key = f"del_cat_confirm_{cat['name']}"
+            confirm_time_key = f"del_cat_confirm_time_{cat['name']}"
+            
+            # Auto-Reset wenn mehr als 5 Sekunden vergangen
+            if st.session_state.get(confirm_key):
+                confirm_time = st.session_state.get(confirm_time_key)
+                if confirm_time and (datetime.now() - confirm_time).seconds > 5:
+                    st.session_state[confirm_key] = False
+                    del st.session_state[confirm_time_key]
+                    st.rerun()
+            
             if st.session_state.get(confirm_key):
                 if cols[2].button("✖", key=f"confirm_cat_{cat['name']}", help="Bestätigen"):
                     on_delete(cat['name'])
                     st.session_state[confirm_key] = False
+                    if confirm_time_key in st.session_state:
+                        del st.session_state[confirm_time_key]
                     st.rerun()
             else:
                 if cols[2].button("🗑", key=f"del_cat_{cat['name']}", help=f"'{cat['name']}' löschen"):
                     st.session_state[confirm_key] = True
+                    st.session_state[confirm_time_key] = datetime.now()
                     st.rerun()
 
 
@@ -298,7 +324,7 @@ class ArchiveView:
     @staticmethod
     def render_archive(tasks: List[Task], on_restore, on_delete, get_color_func: Callable) -> None:
         """Rendert Archiv-Ansicht"""
-        st.markdown("#### ✅ Erledigte Aufgaben")
+        st.markdown("#### Erledigte Aufgaben")
         if not tasks:
             st.caption("Keine erledigten Aufgaben.")
             return
@@ -308,27 +334,40 @@ class ArchiveView:
     @staticmethod
     def _render_archived_task(task: Task, on_restore, on_delete, get_color_func: Callable) -> None:
         """Rendert einzelne archivierte Task"""
-        cols = st.columns([6, 1, 1])
-        with cols[0]:
-            title = html.escape(task.title)
-            cat_html = ""
-            if task.category and task.category != "Keine":
-                color = get_color_func(task.category)
-                cat_html = (
-                    f"<span style='background:{color}; color:#0e1117; padding:0 4px; border-radius:3px; "
-                    f"font-size:0.65rem; font-weight:600; opacity:0.6; margin-left:8px;'>{html.escape(task.category)}</span>"
+        with st.container():
+            cols = st.columns([0.4, 5, 1.2])
+            
+            with cols[0]:
+                # Symmetrisch zu TaskView: Checkbox (angehakt = erledigt/archiviert)
+                # Abwählen stellt wieder her (wie "unerledigt" machen)
+                if not st.checkbox("", value=True, key=f"restore_{task.id}", 
+                                label_visibility="collapsed"):
+                    on_restore(task.id)
+            
+            with cols[1]:
+                title = html.escape(task.title)
+                cat_html = ""
+                if task.category and task.category != "Keine":
+                    color = get_color_func(task.category)
+                    text_color = LayoutView.get_text_color_for_bg(color)
+                    cat_html = (
+                        f"<span style='background:{color}; color:{text_color}; padding:0 4px; border-radius:3px; "
+                        f"font-size:0.65rem; font-weight:600; opacity:0.6; margin-left:8px;'>{html.escape(task.category)}</span>"
+                    )
+                st.markdown(
+                    f"<div style='opacity:0.6; padding:0.4rem 0; font-size:1.05rem; line-height:1.2;'>"
+                    f"<span style='text-decoration: line-through;'>{title}</span> {cat_html}</div>",
+                    unsafe_allow_html=True
                 )
-            st.markdown(
-                f"<div style='opacity:0.6; padding:0.3rem 0; font-size:0.95rem;'>"
-                f"<s>{title}</s> {cat_html}</div>",
-                unsafe_allow_html=True
-            )
-        with cols[1]:
-            if st.button("↩", key=f"restore_{task.id}", help="Wiederherstellen"):
-                on_restore(task.id)
-        with cols[2]:
-            if st.button("🗑", key=f"del_arch_{task.id}", help="Endgültig löschen"):
-                on_delete(task.id)
+            
+            with cols[2]:
+                c1, c2 = st.columns(2)
+                with c1:
+                    if st.button("↩", key=f"restore_btn_{task.id}", help="Wiederherstellen"):
+                        on_restore(task.id)
+                with c2:
+                    if st.button("🗑", key=f"del_arch_{task.id}", help="Endgültig löschen"):
+                        on_delete(task.id)
 
 
 class LayoutView:

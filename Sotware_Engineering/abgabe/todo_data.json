@@ -1,5 +1,20 @@
 {
-  "tasks": [],
+  "tasks": [
+    {
+      "id": 33,
+      "title": "Werbung für HPE",
+      "completed": false,
+      "category": "HPE",
+      "due_date": "2026-01-19"
+    },
+    {
+      "id": 32,
+      "title": "Auto waschen",
+      "completed": false,
+      "category": "Personal",
+      "due_date": "2026-01-14"
+    }
+  ],
   "archived_tasks": [],
   "categories": [
     {
@@ -15,5 +30,5 @@
       "color": "#0677e2"
     }
   ],
-  "next_id": 32
+  "next_id": 34
 }

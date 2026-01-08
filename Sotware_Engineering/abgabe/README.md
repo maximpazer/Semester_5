@@ -100,12 +100,12 @@ Jede Nielsen-Heuristik ist explizit den UI-Komponenten zugeordnet, um die Gebrau
 |---|---|
 | **Sichtbarkeit des Systemstatus** | Das System nutzt moderne Toast-Notifications (`st.toast`) für unaufdringliches, aber klares Feedback ("Änderungen gespeichert!") nach jeder Speicheraktion. |
 | **Übereinstimmung System/Realität** | `TaskView` verwendet natürliche Sprache für Fälligkeitsdaten („heute“, „morgen“, „in 3 Tagen“) statt technischer Datumsformate. |
-| **Benutzerkontrolle & Freiheit** | Nutzer können versehentlich gelöschte Aufgaben über die `ArchiveView` („Wiederherstellen“-Button) zurückholen; Bearbeitungsdialoge haben einen expliziten „Abbrechen“-Button. |
-| **Konsistenz & Standards** | Identisches Verhalten bei kritischen Aktionen: Sowohl Aufgaben (`TaskView`) als auch Kategorien (`CategoryView`) nutzen exakt denselben Zwei-Schritt-Löschprozess (🗑 -> ✖), um kognitive Last zu minimieren. |
+| **Benutzerkontrolle & Freiheit** | Nutzer können versehentlich als erledigt markierte Aufgaben über die `ArchiveView` („Wiederherstellen“-Button) zurückholen; Bearbeitungsdialoge haben einen expliziten „Abbrechen“-Button. |
+| **Konsistenz & Standards** | Identisches Verhalten bei kritischen Aktionen: Sowohl Aufgaben (`TaskView`) als auch Kategorien (`CategoryView`) nutzen exakt denselben Zwei-Schritt-Löschprozess (🗑 -> ✖). Ebenso sind die Buttons zum hinzufügen identisch (Kategorie oder Task)|
 | **Fehlervermeidung** | Zwei-Stufen-Bestätigung verhindert das versehentliche Löschen von Daten. Der Bestätigungs-Button ändert sich dynamisch, erfordert also eine bewusste Bestätigung. |
-| **Wiedererkennung statt Erinnerung** | Eingabefelder nutzen `placeholder`-Texte (z. B. „Was möchten Sie erledigen?“), um das erwartete Format anzuzeigen, ohne dass der Nutzer eine Hilfe lesen muss. |
-| **Flexibilität & Effizienz** | Die `SidebarView` ermöglicht Power-Usern das schnelle Filtern nach Kategorien und Status, während Dringlichkeit durch Farbcodierung (roter Rand) sofort scannbar ist. |
-| **Ästhetik & Minimalismus** | `label_visibility="collapsed"` wird in Formularen genutzt, um visuelles Rauschen zu reduzieren; `st.expander` versteckt selten genutzte Funktionen wie das Kategorie-Management. |
-| **Hilfe bei Fehlern** | Wenn eine leere Kategorie angelegt wird, gibt `CategoryView` eine spezifische Fehlermeldung via `st.error` aus („Bitte Namen eingeben“), statt nichts zu tun. |
-| **Hilfe & Dokumentation** | Eine Kurzanleitung mit Symbol-Erklärung ist direkt in der App über `LayoutView.render_help` als aufklappbare Info-Box verfügbar. |
+| **Wiedererkennung statt Erinnerung** | Eingabefelder nutzen `placeholder`-Texte (z. B. „Was möchten Sie erledigen?“), um das erwartete Format anzuzeigen, ohne dass der Nutzer eine Hilfe lesen muss. Ebenso erlaubt es die Zuordnung von Farben der Kategorien das schnelle wiedererkennen von Aufgaben  |
+| **Flexibilität & Effizienz** | Die `SidebarView` ermöglicht Usern das schnelle Filtern nach Kategorien und Status. Die Dringlichkeit von Aufgaben wird durch rote Merkmale (roter Rand und Schrift des Datums) schnell ersichtlich. |
+| **Ästhetik & Minimalismus** | `label_visibility="collapsed"` wird in Formularen genutzt, um die Input Felder minimalistisch zu halten; In `st.expander` werden selten genutzte Funktionen wie das Kategorie-Management versteckt. Ebenso lassen sich die  |
+| **Hilfe bei Fehlern** | Wenn eine leere Kategorie angelegt wird, gibt `CategoryView` eine spezifische Fehlermeldung via `st.error` aus („Bitte Namen eingeben“), statt nichts zu tun. Ebenso, wenn eine leere Aufgabe hinzugefügt wird, erscheint eine Fehlermeldung ("Titel erforderlich.). |
+| **Hilfe & Dokumentation** | Eine Kurzanleitung mit Symbol-Erklärung ist direkt in der App über `LayoutView.render_help` als aufklappbare Info-Box verfügbar. Ebenso sind die Input Felder mit Hinweisen hinterlegt. |
 

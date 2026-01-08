@@ -405,7 +405,7 @@ class LayoutView:
         cols = st.columns([4, 1])
         with cols[0]: st.markdown("# TODO App")
         
-        # Toast statt statisches Icon (bessere UX)
+        # Toast statt statisches Icon 
         if last_save_time:
             # Checken ob Toast für diesen Save schon gezeigt wurde
             last_shown = st.session_state.get('last_toast_shown')

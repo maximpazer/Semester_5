@@ -1,17 +1,3 @@
-"""
-Factory Pattern - ToDo-App Aufgabentypen
-
-Das Factory Pattern wird verwendet:
-- Wenn der genaue Objekttyp erst zur Laufzeit feststeht
-- Wenn Nutzer eigene Erweiterungen einbauen sollen
-- Wenn vorhandene Objekte wiederverwendet werden sollen
-
-Vorteile:
-- Client-Code kennt keine konkreten Klassen
-- Einfache Erweiterbarkeit (neue Task-Typen hinzufügen)
-- Zentrale Objekterzeugung
-"""
-
 from abc import ABC, abstractmethod
 
 
@@ -107,7 +93,6 @@ class TaskFactory:
         cls._task_types[type_name.lower()] = task_class
 
 
-# CLIENT-CODE (Beispiel)
 
 if __name__ == "__main__":
     # Factory erstellen

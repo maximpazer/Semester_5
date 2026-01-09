@@ -1,58 +1,9 @@
-"""
-Adapter Pattern - Externe Aufgabenquelle in TODO-App integrieren
-
-Das Adapter Pattern wird verwendet:
-- Wenn eine externe Schnittstelle nicht mit der internen kompatibel ist
-- Wenn bestehender Code NICHT geändert werden soll
-- Wenn verschiedene Datenformate vereinheitlicht werden müssen
-
-SZENARIO:
-- Unsere TODO-App verwendet intern die Task-Klasse (aus model.py)
-- Eine externe "ProjectManagement-API" liefert Aufgaben in einem ANDEREN Format
-- Der Adapter übersetzt zwischen beiden Formaten
-
-STRUKTUR:
-┌──────────────────────────────────────────────────────────────────────┐
-│  CLIENT (TODO-App)                                                   │
-│  ─────────────────                                                   │
-│  Erwartet Objekte mit:                                               │
-│  - id, title, completed, category, due_date                          │
-│  - Methoden: validate(), is_urgent(), to_dict()                      │
-└───────────────────────────────┬──────────────────────────────────────┘
-                                │ nutzt
-                                ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│  CLIENT-SCHNITTSTELLE (TaskInterface)                                │
-│  ────────────────────────────────────                                │
-│  Definiert das erwartete Interface                                   │
-└───────────────────────────────┬──────────────────────────────────────┘
-                                │ implementiert
-                                ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│  ADAPTER (ExternalTaskAdapter)                                       │
-│  ─────────────────────────────                                       │
-│  - Implementiert TaskInterface                                       │
-│  - Enthält Referenz auf ExternalTask                                 │
-│  - Übersetzt zwischen den Formaten                                   │
-└───────────────────────────────┬──────────────────────────────────────┘
-                                │ wrapped
-                                ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│  SERVICE (ExternalProjectAPI)                                        │
-│  ────────────────────────────                                        │
-│  Liefert ExternalTask-Objekte mit ANDEREM Format:                    │
-│  - task_id, task_name, status, project, deadline                     │
-└──────────────────────────────────────────────────────────────────────┘
-"""
-
 from abc import ABC, abstractmethod
 from datetime import date, datetime, timedelta
 from typing import Dict, List, Optional
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # 1. CLIENT-SCHNITTSTELLE (Interface das der Client erwartet)
-# ═══════════════════════════════════════════════════════════════════════════════
 
 class TaskInterface(ABC):
     """
@@ -108,9 +59,7 @@ class TaskInterface(ABC):
         pass
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # 2. SERVICE (Externe API mit INKOMPATIBLEM Format)
-# ═══════════════════════════════════════════════════════════════════════════════
 
 class ExternalTask:
     """
@@ -192,9 +141,7 @@ class ExternalProjectAPI:
         return None
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # 3. ADAPTER (Übersetzt zwischen externem und internem Format)
-# ═══════════════════════════════════════════════════════════════════════════════
 
 class ExternalTaskAdapter(TaskInterface):
     """
@@ -283,9 +230,7 @@ class ExternalTaskAdapter(TaskInterface):
         return self._external.priority
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # 4. CLIENT-CODE (Demonstration)
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def display_task(task: TaskInterface) -> None:
     """

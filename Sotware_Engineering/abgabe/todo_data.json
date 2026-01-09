@@ -1,18 +1,53 @@
 {
   "tasks": [
     {
-      "id": 33,
-      "title": "Werbung für HPE",
+      "id": 41,
+      "title": "TODO App testen",
       "completed": false,
-      "category": "HPE",
-      "due_date": "2026-01-19"
+      "category": "DHBW",
+      "due_date": "2026-01-09"
     },
     {
-      "id": 32,
+      "id": 40,
+      "title": "Vertrag verschicken",
+      "completed": false,
+      "category": "HPE",
+      "due_date": "2026-01-31"
+    },
+    {
+      "id": 39,
+      "title": "Präsentation erstellen",
+      "completed": false,
+      "category": "HPE",
+      "due_date": "2026-01-13"
+    },
+    {
+      "id": 38,
       "title": "Auto waschen",
       "completed": false,
-      "category": "Personal",
-      "due_date": "2026-01-14"
+      "category": "Privat",
+      "due_date": "2026-01-31"
+    },
+    {
+      "id": 37,
+      "title": "Einkaufen gehen",
+      "completed": false,
+      "category": "HPE",
+      "due_date": "2026-01-27"
+    },
+    {
+      "id": 36,
+      "title": "Machine Learning lernen",
+      "completed": false,
+      "category": "DHBW",
+      "due_date": "2026-01-21"
+    },
+    {
+      "id": 35,
+      "title": "Software Engineering vorbereiten",
+      "completed": false,
+      "category": "DHBW",
+      "due_date": "2026-01-10"
     }
   ],
   "archived_tasks": [],
@@ -26,9 +61,9 @@
       "color": "#37b902"
     },
     {
-      "name": "Personal",
-      "color": "#0677e2"
+      "name": "Privat",
+      "color": "#1637c1"
     }
   ],
-  "next_id": 34
+  "next_id": 42
 }

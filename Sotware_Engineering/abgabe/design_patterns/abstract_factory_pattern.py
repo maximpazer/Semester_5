@@ -1,18 +1,3 @@
-"""
-Abstract Factory Pattern - ToDo-App Aufgabentypen
-
-UNTERSCHIED ZUM FACTORY PATTERN:
-- Factory Pattern: EINE Factory erzeugt verschiedene Produkte (über Parameter)
-- Abstract Factory: MEHRERE Fabriken erzeugen FAMILIEN von zusammengehörigen Produkten
-
-Anwendungsfall:
-- SimpleTaskFactory → erzeugt einfache Tasks (Kurzform)
-- DetailedTaskFactory → erzeugt detaillierte Tasks (Langform)
-
-Der Client wählt eine Factory und bekommt dann konsistent
-alle Produkte in der gleichen "Stil-Familie".
-"""
-
 from abc import ABC, abstractmethod
 
 
@@ -143,8 +128,8 @@ class DetailedTaskFactory(AbstractTaskFactory):
 def client_code(factory: AbstractTaskFactory) -> None:
     """
     Der Client arbeitet nur mit der abstrakten Factory.
-    Er weiß nicht, welche konkreten Klassen erzeugt werden!
-    
+    Er deiß nicht, welche konkreten Klassen erzeugt werden!
+    s
     Args:
         factory: Eine beliebige Factory, die AbstractTaskFactory implementiert
     """
@@ -162,7 +147,7 @@ if __name__ == "__main__":
     print("ABSTRACT FACTORY PATTERN - DEMONSTRATION")
     print("=" * 60)
     
-    # --- SimpleTaskFactory verwenden ---
+    # impleTaskFactory verwenden
     print("\n🔹 Mit SimpleTaskFactory:")
     factory = SimpleTaskFactory()  # oder DetailedTaskFactory()
     todo = factory.create_todo_task()
@@ -173,7 +158,7 @@ if __name__ == "__main__":
     print(f"  {shopping.describe()}")
     print(f"  {work.describe()}")
     
-    # --- DetailedTaskFactory verwenden ---
+    # DetailedTaskFactory verwenden 
     print("\n🔹 Mit DetailedTaskFactory:")
     factory = DetailedTaskFactory()
     todo = factory.create_todo_task()
@@ -184,15 +169,15 @@ if __name__ == "__main__":
     print(f"  {shopping.describe()}")
     print(f"  {work.describe()}")
     
-    # --- Client-Code demonstrieren ---
+    # Client-Code demonstrieren
     print("\n" + "-" * 60)
     print("CLIENT-CODE (arbeitet nur mit abstrakter Factory):")
     print("-" * 60)
     
-    print("\n📦 Client bekommt SimpleTaskFactory:")
+    print("\n Client bekommt SimpleTaskFactory:")
     client_code(SimpleTaskFactory())
     
-    print("\n📦 Client bekommt DetailedTaskFactory:")
+    print("\n Client bekommt DetailedTaskFactory:")
     client_code(DetailedTaskFactory())
     
     print("\n" + "=" * 60)

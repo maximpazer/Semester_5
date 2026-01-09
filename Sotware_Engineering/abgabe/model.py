@@ -33,10 +33,11 @@ class Task:
             due = datetime.fromisoformat(self.due_date).date()
             today = date.today()
             tomorrow = today + timedelta(days=1)
+            
             return due == today or due == tomorrow 
         except:
             return False
-    #
+    
     def to_dict(self) -> Dict:
         """Serialisiert Task für JSON-Speicherung"""
         return {

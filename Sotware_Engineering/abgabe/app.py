@@ -1,5 +1,4 @@
-# orchestrierung
-# MVC-Architektur
+# Orchestrator der TODO-App
 import streamlit as st
 from datetime import datetime
 from controller import ApplicationController
@@ -33,7 +32,6 @@ task_controller = app_controller.get_task_controller()
 category_controller = app_controller.get_category_controller()
 
 # STREAMLIT UI
-
 # Page Config
 st.set_page_config(
     page_title="To-do App",
@@ -47,7 +45,6 @@ LayoutView.apply_responsive_css()
 LayoutView.render_header(st.session_state.last_save_time)
 
 # SIDEBAR: FILTER (FR-05)
-
 with st.sidebar:
     # liefert dictionary mit filter_status und filter_category
     filter_result = SidebarView.render_filters(
@@ -150,7 +147,6 @@ else:
     )
 
 # ARCHIV
-
 if st.session_state.show_archived:
     ArchiveView.render_archive(
         tasks=task_controller.get_archived_tasks(),

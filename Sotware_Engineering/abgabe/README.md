@@ -27,7 +27,7 @@ Funktionale Anforderungen beschreiben **was** das System leisten muss. 00-04 ent
 
 
 ## 3. Streamlit-Benutzeroberfläche – Block 3
-→ Link zu Figma (noch in Arbeit)
+→ Figma Ausschnitt ist beigefügt (und in der Doku)
 
 ## 4. Architektur
 ### 4.1 MVC-Architektur

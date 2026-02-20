@@ -8,6 +8,13 @@
       "due_date": "2026-01-09"
     },
     {
+      "id": 42,
+      "title": "Test",
+      "completed": false,
+      "category": "DHBW",
+      "due_date": "2026-01-06"
+    },
+    {
       "id": 40,
       "title": "Vertrag verschicken",
       "completed": false,
@@ -63,7 +70,11 @@
     {
       "name": "Privat",
       "color": "#1637c1"
+    },
+    {
+      "name": "Test",
+      "color": "#b71d9f"
     }
   ],
-  "next_id": 42
+  "next_id": 43
 }

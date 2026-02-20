@@ -11,6 +11,7 @@ import os
 from playwright.sync_api import Page, expect
 
 
+
 @pytest.fixture(scope="module")
 def app_server():
     """Startet Streamlit-App als Server"""
